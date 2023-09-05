@@ -5,7 +5,7 @@ from Player import Player
 pygame.init()
 
 
-board_image = pygame.image.load("clue_board.jpg")
+board_image = pygame.image.load("src/clue_board.jpg")
 board_width, board_height = board_image.get_size()
 
 
