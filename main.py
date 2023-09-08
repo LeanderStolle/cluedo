@@ -2,6 +2,8 @@ import pygame
 import MainMenu
 import Board
 
+
+#Klasse für das Spiel erzeugt im Konstruktor alle nötigen Instanzen der einzelnen Klassen/Objekte
 class CluedoGame:
     def __init__(self):
         pygame.init()
@@ -11,11 +13,13 @@ class CluedoGame:
         self.menu = MainMenu.MainMenu(self)
         self.current_state = "menu"
 
+    #ändern des Zustands
     def switch_to_gameplay(self):
         self.current_state = "gameplay"
         self.Clue_board.draw_board(self.screen)
 
 
+    #Main Loop
     def run(self):
         while True:
             for event in pygame.event.get():
