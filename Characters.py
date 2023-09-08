@@ -1,16 +1,15 @@
 import pygame
 
-class Player(pygame.sprite.Sprite):
-    def __init__(self, name, starting_position):
-        super().__init__()
-        self.image = pygame.Surface((30, 30))  # Placeholder image
-        self.rect = self.image.get_rect(center=starting_position)
+class Character:
+    def __init__(self, name, description, color):
+        self.name = name
+        self.description = description
+        self.color = color
 
-    def update(self):
-
-        pass
-
-    def draw(self, surface):
-        surface.blit(self.image, self.rect)
-
+fraeulein_Gloria = Character("Fräulein Gloria", "Eine junge, lebendige Frau.", Colors.rot)
+oberst_senf = Character("Oberst Senf", "Ein Militärmann mit starker Persönlichkeit.", "Gelb")
+herr_gruen = Character("Herr Grün", "Ein wohlhabender Geschäftsmann.", "Grün")
+frau_pfau = Character("Frau Pfau", "Eine elegante und wohlhabende Frau.", "Blau")
+professor_bloom = Character("Professor Bloom", "Ein intellektueller und akademischer Charakter.", "Lila")
+fraeulein_weiß = Character("Fräulein Weiß", "Eine ernste und korrekte Haushälterin.", "Weiß")
 
