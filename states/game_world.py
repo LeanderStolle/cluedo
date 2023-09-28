@@ -25,3 +25,5 @@ class Game_World(State):
 
     def render(self, screen):
         screen.blit(self.map_img, (0,0))
+
+    
