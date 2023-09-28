@@ -1,6 +1,7 @@
 import os, time, pygame
 
-from states.title import Title
+from states.title import Titl
+
 
 class Game():
     def __init__(self):
@@ -93,6 +94,16 @@ class Game():
     def load_states(self):
         self.title_screen = Title(self)
         self.state_stack.append(self.title_screen)
+
+    def handle_click(self, x, y, board):
+            for tile in board:
+                if tile.contains_point(x, y):
+                    print("Dieses Tile habe ich geklicked", tile.name)
+                    return tile
+                if tile.contains_point(x, y) & tile.type == "wall":
+                    print("Hier kann man nicht hinlaufen", tile.name)
+                    return tile
+            return None
     
 
 
