@@ -1,6 +1,6 @@
 import os, time, pygame
 
-from states.title import Titl
+from states.title import Title
 
 
 class Game():
@@ -43,14 +43,8 @@ class Game():
 
 
     def get_events(self):
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                self.running, self.playing = False, False
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    self.actions["pause"] = True  
-                if event.key == pygame.K_SPACE:
-                    self.actions["note"] = True    
+        self.state_stack[-1].get_events()
+
                 
     def reset_keys(self):
         self.actions["pause"] = False
@@ -84,7 +78,8 @@ class Game():
 
     def load_assets(self):
         #Erstelle die Referenz zu den directories
-        self.game_dir = os.path.join("cluedo")
+        self.cluedo_dir = os.getcwd()
+        self.game_dir = os.path.join(self.cluedo_dir, "cluedo")
         self.assets_dir = os.path.join(self.game_dir, "assets")
         self.sprite_dir = os.path.join(self.assets_dir, "sprites")
         self.font_dir = os.path.join(self.assets_dir, "font")
@@ -96,16 +91,6 @@ class Game():
         self.title_screen = Title(self)
         self.state_stack.append(self.title_screen)
 
-    def handle_click(self, x, y, board):
-            for tile in board:
-                if tile.contains_point(x, y):
-                    print("Dieses Tile habe ich geklicked", tile.name)
-                    return tile
-                if tile.contains_point(x, y) & tile.type == "wall":
-                    print("Hier kann man nicht hinlaufen", tile.name)
-                    return tile
-            return None
-    
 
 
     

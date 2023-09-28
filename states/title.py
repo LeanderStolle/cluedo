@@ -29,4 +29,13 @@ class Title(State):
         self.play_btn.draw()
         self.options_btn.draw()
 
+    def get_events(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.running, self.playing = False, False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    self.actions["pause"] = True  
+                if event.key == pygame.K_SPACE:
+                    self.actions["note"] = True    
         

@@ -1,5 +1,7 @@
+import pygame
+
 class Tile:
-    def __init__(self, name,type, x, y, width, height, color):
+    def __init__(self, name, type, x, y, width, height, color):
         self.name = name
         self.type = type
         self.x = x
