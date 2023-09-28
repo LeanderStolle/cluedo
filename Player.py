@@ -1,5 +1,5 @@
 import pygame
-from Character import Character
+from character import Character
 
 
 class Player(pygame.sprite.Sprite):

@@ -34,6 +34,7 @@ class Game():
     def game_loop(self):
         while self.playing:
             self.timer.tick(self.fps)
+
             self.get_dt()
             self.get_events()
             self.update()
@@ -47,7 +48,7 @@ class Game():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.actions["pause"] = True  
-                if event.key == pygame.K_TAB:
+                if event.key == pygame.K_SPACE:
                     self.actions["note"] = True    
                 
     def reset_keys(self):
