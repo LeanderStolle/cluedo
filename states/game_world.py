@@ -61,7 +61,6 @@ class Game_World(State):
                       Tile('Floor47', 'Floor', 150, 300, 50, 50, (TileFloorColor.get_color())),
                       Tile('Floor48', 'Floor', 200, 250, 50, 50, (TileFloorColor.get_color())),
                       Tile('Floor49', 'Floor', 150, 250, 50, 50, (TileFloorColor.get_color())),
-
                         Tile('Floor50', 'Floor', 0, 400, 50, 50, (TileFloorColor.get_color())),
                         Tile('Floor51', 'Floor', 50, 400, 50, 50, (TileFloorColor.get_color())),
                         Tile('Floor52', 'Floor', 100, 400, 50, 50, (TileFloorColor.get_color())),
@@ -83,6 +82,44 @@ class Game_World(State):
                         Tile('Floor68', 'Floor', 500, 350, 50, 50, (TileFloorColor.get_color())),
                         Tile('Floor69', 'Floor', 550, 350, 50, 50, (TileFloorColor.get_color())),
                         Tile('Floor70', 'Floor', 600, 350, 50, 50, (TileFloorColor.get_color())),
+                        Tile('Floor71', 'Floor', 350, 450, 50, 50, (TileFloorColor.get_color())),
+                        Tile('Floor72', 'Floor', 300, 450, 50, 50, (TileFloorColor.get_color())),
+                        Tile('Floor73', 'Floor', 250, 450, 50, 50, (TileFloorColor.get_color())),
+                        Tile('Floor74', 'Floor', 350, 500, 50, 50, (TileFloorColor.get_color())),
+                        Tile('Floor75', 'Floor', 350, 550, 50, 50, (TileFloorColor.get_color())),
+                        Tile('Floor76', 'Floor', 400, 500, 50, 50, (TileFloorColor.get_color())),
+                        Tile('Floor77', 'Floor', 400, 550, 50, 50, (TileFloorColor.get_color())),
+                       Tile('Floor77', 'Floor', 300, 500, 50, 50, (TileFloorColor.get_color())),
+                        Tile('Floor78', 'Floor', 300, 550, 50, 50, (TileFloorColor.get_color())),
+                       Tile('Floor79', 'Floor', 250, 500, 50, 50, (TileFloorColor.get_color())),
+                       Tile('Floor80', 'Floor', 250, 550, 50, 50, (TileFloorColor.get_color())),
+                       Tile('Floor81', 'Floor', 450, 500, 50, 50, (TileFloorColor.get_color())),
+                       Tile('Floor82', 'Floor', 450, 550, 50, 50, (TileFloorColor.get_color())),
+                       Tile('Floor83', 'Floor', 200, 500, 50, 50, (TileFloorColor.get_color())),
+                       Tile('Floor84', 'Floor', 200, 550, 50, 50, (TileFloorColor.get_color())),
+                       Tile('Floor85', 'Floor', 500, 550, 50, 50, (TileFloorColor.get_color())),
+                       Tile('Floor86', 'Floor', 550, 550, 50, 50, (TileFloorColor.get_color())),
+                       Tile('Floor87', 'Floor', 600, 550, 50, 50, (TileFloorColor.get_color())),
+                       Tile('Floor88', 'Floor', 500, 600, 50, 50, (TileFloorColor.get_color())),
+                       Tile('Floor89', 'Floor', 550, 600, 50, 50, (TileFloorColor.get_color())),
+                       Tile('Floor90', 'Floor', 600, 600, 50, 50, (TileFloorColor.get_color())),
+                          Tile('Floor91', 'Floor', 450, 650, 50, 50, (TileFloorColor.get_color())),
+                            Tile('Floor92', 'Floor', 400, 650, 50, 50, (TileFloorColor.get_color())),
+                            Tile('Floor93', 'Floor', 400, 600, 50, 50, (TileFloorColor.get_color())),
+                        Tile('Floor94', 'Floor', 450, 600, 50, 50, (TileFloorColor.get_color())),
+                        Tile('Floor95', 'Floor', 400, 700, 50, 50, (TileFloorColor.get_color())),
+                        Tile('Floor96', 'Floor', 450, 700, 50, 50, (TileFloorColor.get_color())),
+                       Tile('Floor97', 'Floor', 0, 500, 50, 50, (TileFloorColor.get_color())),
+                          Tile('Floor98', 'Floor', 50, 500, 50, 50, (TileFloorColor.get_color())),
+                            Tile('Floor99', 'Floor', 100, 500, 50, 50, (TileFloorColor.get_color())),
+                            Tile('Floor100', 'Floor', 150, 500, 50, 50, (TileFloorColor.get_color())),
+                        Tile('Floor101', 'Floor', 150, 600, 50, 50, (TileFloorColor.get_color())),
+                        Tile('Floor102', 'Floor', 150, 650, 50, 50, (TileFloorColor.get_color())),
+                          Tile('Floor103', 'Floor', 200, 600, 50, 50, (TileFloorColor.get_color())),
+                            Tile('Floor104', 'Floor', 200, 650, 50, 50, (TileFloorColor.get_color())),
+                            Tile('Floor105', 'Floor', 150, 550, 50, 50, (TileFloorColor.get_color())),
+                        Tile('Floor106', 'Floor', 150, 700, 50, 50, (TileFloorColor.get_color())),
+                        Tile('Floor107', 'Floor', 200, 700, 50, 50, (TileFloorColor.get_color())),
                       Tile('Wall', 'Wall', 145, 0, 5, 150, (TileWallColor.get_color())),
                       Tile('Wall1', 'Wall', 0, 145, 100, 5, (TileWallColor.get_color())),
                       Tile('Wall2', 'Wall', 250, 0, 5, 150, (TileWallColor.get_color())),
@@ -105,13 +142,93 @@ class Game_World(State):
                         Tile('Wall19', 'Wall', 600, 400, 50, 5, (TileWallColor.get_color())),
                         Tile('Wall20', 'Wall', 500, 500, 5, 50, (TileWallColor.get_color())),
                         Tile('Wall21', 'Wall', 500, 550, 150, 5, (TileWallColor.get_color())),
+                        Tile('Wall22', 'Wall', 550, 650, 100, 5, (TileWallColor.get_color())),
+                        Tile('Wall23', 'Wall', 500, 650, 5, 100, (TileWallColor.get_color())),
+                        Tile('Wall24', 'Wall', 400, 600, 5, 150, (TileWallColor.get_color())),
+                        Tile('Wall25', 'Wall', 350, 600, 50, 5, (TileWallColor.get_color())),
+                        Tile('Wall26', 'Wall', 250, 600, 50, 5, (TileWallColor.get_color())),
+                        Tile('Wall27', 'Wall', 250, 600, 5, 150, (TileWallColor.get_color())),
+                        Tile('Wall28', 'Wall', 0, 550, 100, 5, (TileWallColor.get_color())),
+                        Tile('Wall29', 'Wall', 145, 550, 5, 200, (TileWallColor.get_color())),
                       Tile("Kitchen", "Room", 0, 0, 145, 145, (TileRoomColor.get_color())),
                       Tile('Dining Room', 'Room', 255, 0, 145, 145, (TileRoomColor.get_color())),
                         Tile('Conservatory','Room',505,0,150,95,(TileRoomColor.get_color())),
                        Tile('Billiard Room','Room',505,255,150,90,(TileRoomColor.get_color())),
                        Tile('Dining Room','Room',0,255,145,145,(TileRoomColor.get_color())),
-                       Tile('Library','Room',505,405,145,145,(TileRoomColor.get_color())),]
+                       Tile('Library','Room',505,405,145,145,(TileRoomColor.get_color())),
+                       Tile('Study','Room',505,655,145,95,(TileRoomColor.get_color())),
+                          Tile('Hall','Room',255,605,145,145,(TileRoomColor.get_color())),
+                            Tile('Lounge','Room',0,555,145,195,(TileRoomColor.get_color())),
+                       ]
 
+    def is_valid_move(self,x, y, new_x, new_y):
+        for tile in self.board:
+            if (new_x < 0 or new_y < 0 or
+                    new_x >= tile.x and new_x < tile.x + tile.width and
+                    new_y >= tile.y and new_y < tile.y + tile.height and
+                    (tile.type == 'Wall' or tile.type == 'None')):
+                return False  # Ungültiger Zug, es ist eine Wand oder 'None'
+
+        return True
+
+    def tile_get_name_from_coordinates(self, x, y):
+        for tile in self.board:
+            if tile.x <= x < tile.x + tile.width and tile.y <= y < tile.y + tile.height:
+                return tile.name
+        return None
+    def find_possible_moves(self, current_x, current_y, rolled_number):
+        possible_moves = []
+
+        # Berechne alle möglichen Endpositionen basierend auf der gewürfelten Zahl
+        for step in range(1, rolled_number + 1):
+            new_x = current_x + step * 50  # Bewegung nach rechts
+            new_y = current_y
+            if self.is_valid_move(current_x, current_y, new_x, new_y):
+                possible_moves.append((new_x, new_y))
+
+            new_x = current_x - step * 50  # Bewegung nach links
+            new_y = current_y
+            if self.is_valid_move(current_x, current_y, new_x, new_y):
+                possible_moves.append((new_x, new_y))
+
+            new_x = current_x
+            new_y = current_y + step * 50  # Bewegung nach unten
+            if self.is_valid_move(current_x, current_y, new_x, new_y):
+                possible_moves.append((new_x, new_y))
+
+            new_x = current_x
+            new_y = current_y - step * 50  # Bewegung nach oben
+            if self.is_valid_move(current_x, current_y, new_x, new_y):
+                possible_moves.append((new_x, new_y))
+
+        return possible_moves
+
+    def mögliche_schritte_in_richtung(self, start_tile, schritte):
+        mögliche_schritte = []
+        x, y = start_tile.x, start_tile.y
+
+        for i in range(1, schritte + 1):
+            next_x, next_y = x + i * 50, y  # Verwende die Breite des Start-Tiles
+            tile_at_position = self.find_tile_at_position(next_x, next_y)
+
+            if tile_at_position and tile_at_position.contains_point(next_x, next_y):
+                mögliche_schritte.append(self.find_tile_at_position(next_x, next_y).get_name())
+            elif tile_at_position and tile_at_position.type == "wall":
+                break  # Stoppe, wenn eine Wand oder Spielfeldgrenze erreicht wird
+
+        return mögliche_schritte
+
+    def find_tile_at_position(self, x, y):
+        for tile in self.board:
+            if tile.x <= x < tile.x + tile.width and tile.y <= y < tile.y + tile.height:
+                return tile
+        return None
+    def find_tile_by_name(self, name):
+        for tile in self.board:
+            if tile.name == name:
+                print(tile.name)
+                return tile
+        return None
 
     def update(self, delta_time, actions):
         if actions["pause"]:
@@ -164,7 +281,12 @@ class Game_World(State):
                 clicked_tile = self.handle_click(self.x, self.y, self.board)
                 print(clicked_tile)
 
-    
+gameworldinstance = Game_World("game")
+tile= gameworldinstance.find_tile_by_name("Floor1")
+x = tile.x
+y = tile.y
+print(gameworldinstance.find_possible_moves(x,y , 5))
+print(gameworldinstance.tile_get_name_from_coordinates(200,0))
    
 
 

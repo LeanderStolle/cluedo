@@ -26,3 +26,5 @@ class Tile:
 
     def get_color(self):
         return self.color
+    def get_name(self):
+        return self.name
