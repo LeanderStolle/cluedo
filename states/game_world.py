@@ -160,6 +160,8 @@ class Game_World(State):
                           Tile('Hall','Room',255,605,145,145,(TileRoomColor.get_color())),
                             Tile('Lounge','Room',0,555,145,195,(TileRoomColor.get_color())),
                        ]
+        #Definiere Actions
+        self.actions = {"pause": False, "note":False}
 
     def is_valid_move(self,x, y, new_x, new_y):
         for tile in self.board:
@@ -242,6 +244,7 @@ class Game_World(State):
         self.game.reset_keys()
 
     def render(self, screen):
+        screen.fill((255,255,255))
         self.draw_board(screen)
         
 
@@ -270,7 +273,7 @@ class Game_World(State):
     def get_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                self.running, self.playing = False, False
+                exit(0)
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.actions["pause"] = True  
@@ -287,6 +290,22 @@ x = tile.x
 y = tile.y
 print(gameworldinstance.find_possible_moves(x,y , 5))
 print(gameworldinstance.tile_get_name_from_coordinates(200,0))
+
+
+#TO-DO:
+#  1. Alle Spielfiguren platzieren
+#  2. Waffen platzieren
+#  3. 29 Beweisarten initialisieren und auf dem Board platzieren (Beweiskarten maybe Optional)
+#  4. übrige Karten auf Stapel aufteilen ( Personen, Waffen, Räume), dann mischen und auch verdeckt platzieren
+#  5. von jedem Stapel (Personen, Waffe, Räume) muss eine Karte in die Fallakte (Lösung)
+#  6. Mischen der übrogen Karten und verteilen an Spieler (nicht schlimm wenn jemand mehr Karten hat als der andere)
+#  7. Spielstart --> möglichkeit seine Beweiskarten anzuschauen (im eigenen Spielzug)
+#  
+# Allgemeines:
+# - maybe ein Turnhandler? damit
+# - maybe UI mit aktivem Spielernamen, Buttons fürs Würfel, anschuldigen, karten anschauen, notes taken
+#
+
    
 
 

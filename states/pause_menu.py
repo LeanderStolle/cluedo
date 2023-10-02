@@ -1,3 +1,7 @@
+# Regeln hinzufügen
+#
+
+
 import pygame, os
 
 from states.state import State
@@ -8,11 +12,6 @@ class PauseMenu(State):
         self.game = game
         State.__init__(self, game)
         self.is_open = False
-
-        #Set the Menu ,Todo: Menu Image Import
-        #self.menu_img = pygame.image.load(os.path.join(self.game.assets_dir, "map", "#name des Menu images"))
-        #self.menu_rect = self.menu_img.get_rect()
-        #self.menu_rect.center = (self.game.SCREEN_WIDTH * .8, self.game.SCREEN_HEIGHT * .4)
 
         # Initialisiere Buttons
         self.exit_btn = Button(self.game, "Exit", self.game.SCREEN_WIDTH/2 - 75 , self.game.SCREEN_HEIGHT/2 + 25, 150, 40, True)
@@ -37,3 +36,13 @@ class PauseMenu(State):
         self.game.draw_title_text(screen, "-Paused-", (0,0,0), self.game.SCREEN_WIDTH/2, self.game.SCREEN_HEIGHT/2 - 200)
         self.exit_btn.draw()
         
+
+    def get_events(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                exit(0)
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    self.actions["pause"] = True  
+                if event.key == pygame.K_SPACE:
+                    self.actions["note"] = True  
