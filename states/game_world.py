@@ -161,68 +161,60 @@ class Game_World(State):
                             Tile('Lounge','Room',0,555,145,195,(TileRoomColor.get_color())),
                        ]
 
-    def is_valid_move(self,x, y, new_x, new_y):
-        for tile in self.board:
-            if (new_x < 0 or new_y < 0 or
-                    new_x >= tile.x and new_x < tile.x + tile.width and
-                    new_y >= tile.y and new_y < tile.y + tile.height and
-                    (tile.type == 'Wall' or tile.type == 'None')):
-                return False  # Ungültiger Zug, es ist eine Wand oder 'None'
 
-        return True
+    def get_neighbours(self, given_tile):
+        neighbours = []
+        for tile in self.board:
+            if tile.type == 'Wall' or tile.name == given_tile.name:
+                continue  #Überspringe wall tile und das übergebene tile
+
+            # überprüfen ob tiles horizontal  benachbart sind
+            if (given_tile.y < tile.y + tile.height) and (tile.y < given_tile.y + given_tile.height):
+                # 5px abstand zwischen Floor und Room tiles
+                gap = 5 if (tile.type == 'Room' or given_tile.type == 'Room') else 0
+                # Wenn der horizontale Abstand zwischen den Mittelpunkten zweier Tiles
+                # kleiner oder gleich der Summe der Hälfte ihrer Breiten und der Lücke ist,
+                # werden sie als benachbart betrachtet.
+                if abs((tile.x + tile.width / 2) - (given_tile.x + given_tile.width / 2)) <= (
+                        tile.width + given_tile.width) / 2 + gap:
+                    neighbours.append(tile)
+                    continue
+
+
+            if (given_tile.x < tile.x + tile.width) and (tile.x < given_tile.x + given_tile.width):
+                gap = 5 if (tile.type == 'Room' or given_tile.type == 'Room') else 0
+                if abs((tile.y + tile.height / 2) - (given_tile.y + given_tile.height / 2)) <= (
+                        tile.height + given_tile.height) / 2 + gap:
+                    neighbours.append(tile)
+
+        return neighbours
+
+    def find_possible_moves(self, tile, steps):
+        possible_moves = set()
+        current_tiles = [tile]
+        for _ in range(steps):
+            next_tiles = []
+            for t in current_tiles:
+                neighbours = self.get_neighbours(t)
+                for neighbour in neighbours:
+                    if neighbour not in possible_moves:
+                        possible_moves.add(neighbour)
+                        next_tiles.append(neighbour)
+            current_tiles = next_tiles
+        return list(possible_moves)
 
     def tile_get_name_from_coordinates(self, x, y):
         for tile in self.board:
             if tile.x <= x < tile.x + tile.width and tile.y <= y < tile.y + tile.height:
                 return tile.name
         return None
-    def find_possible_moves(self, current_x, current_y, rolled_number):
-        possible_moves = []
-
-        # Berechne alle möglichen Endpositionen basierend auf der gewürfelten Zahl
-        for step in range(1, rolled_number + 1):
-            new_x = current_x + step * 50  # Bewegung nach rechts
-            new_y = current_y
-            if self.is_valid_move(current_x, current_y, new_x, new_y):
-                possible_moves.append((new_x, new_y))
-
-            new_x = current_x - step * 50  # Bewegung nach links
-            new_y = current_y
-            if self.is_valid_move(current_x, current_y, new_x, new_y):
-                possible_moves.append((new_x, new_y))
-
-            new_x = current_x
-            new_y = current_y + step * 50  # Bewegung nach unten
-            if self.is_valid_move(current_x, current_y, new_x, new_y):
-                possible_moves.append((new_x, new_y))
-
-            new_x = current_x
-            new_y = current_y - step * 50  # Bewegung nach oben
-            if self.is_valid_move(current_x, current_y, new_x, new_y):
-                possible_moves.append((new_x, new_y))
-
-        return possible_moves
-
-    def mögliche_schritte_in_richtung(self, start_tile, schritte):
-        mögliche_schritte = []
-        x, y = start_tile.x, start_tile.y
-
-        for i in range(1, schritte + 1):
-            next_x, next_y = x + i * 50, y  # Verwende die Breite des Start-Tiles
-            tile_at_position = self.find_tile_at_position(next_x, next_y)
-
-            if tile_at_position and tile_at_position.contains_point(next_x, next_y):
-                mögliche_schritte.append(self.find_tile_at_position(next_x, next_y).get_name())
-            elif tile_at_position and tile_at_position.type == "wall":
-                break  # Stoppe, wenn eine Wand oder Spielfeldgrenze erreicht wird
-
-        return mögliche_schritte
 
     def find_tile_at_position(self, x, y):
         for tile in self.board:
             if tile.x <= x < tile.x + tile.width and tile.y <= y < tile.y + tile.height:
                 return tile
         return None
+
     def find_tile_by_name(self, name):
         for tile in self.board:
             if tile.name == name:
@@ -282,11 +274,12 @@ class Game_World(State):
                 print(clicked_tile)
 
 gameworldinstance = Game_World("game")
-tile= gameworldinstance.find_tile_by_name("Floor1")
+tile = gameworldinstance.find_tile_by_name("Floor1")
 x = tile.x
 y = tile.y
-print(gameworldinstance.find_possible_moves(x,y , 5))
 print(gameworldinstance.tile_get_name_from_coordinates(200,0))
+print(gameworldinstance.get_neighbours(gameworldinstance.find_tile_by_name("Floor47")))
+print(gameworldinstance.find_possible_moves(gameworldinstance.find_tile_by_name("Floor47"), 5))
    
 
 
