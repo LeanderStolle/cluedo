@@ -256,8 +256,13 @@ class Game_World(State):
                 border_size = 1
                 pygame.draw.rect(screen, border_color, (
                     tile.x + border_size, tile.y + border_size,
-                    tile.width - 2 * border_size, tile.height - 2 * border_size)
-                                 )
+                    tile.width - 2 * border_size, tile.height - 2 * border_size))
+            # Render room name
+            if tile.type == 'Room':
+                font = pygame.font.Font(None, 24)  # Adjust the font size as needed
+                text = font.render(tile.name, True, (0, 0, 0))  # Text color: (0, 0, 0) is black
+                text_rect = text.get_rect(center=(tile.x + tile.width // 2, tile.y + tile.height // 2))
+                screen.blit(text, text_rect)
 
     def get_events(self):
         for event in pygame.event.get():
