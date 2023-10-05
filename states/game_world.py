@@ -224,11 +224,9 @@ class Game_World(State):
                 return tile
         return None
 
-    def update(self, delta_time, actions):
-
-
-        
+    def update(self, delta_time, actions):        
         if actions["pause"]:
+            print(self.actions["pause"])
             new_state = PauseMenu(self.game)
             new_state.is_open = True
             new_state.enter_state()
@@ -273,7 +271,8 @@ class Game_World(State):
                 if event.key == pygame.K_ESCAPE:
                     self.actions["pause"] = True  
                 if event.key == pygame.K_SPACE:
-                    self.actions["note"] = True    
+                    self.actions["note"] = True
+                    print("space is pressed")    
             if event.type == pygame.MOUSEBUTTONDOWN:
                 self.x, self.y = event.pos  # Get the x, y position of the click
                 clicked_tile = self.handle_click(self.x, self.y, self.board)

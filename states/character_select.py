@@ -35,29 +35,10 @@ class CharacterSelect(State):
         
 
     def update(self, delta_time, actions):
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                exit(0)
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                x, y = event.pos
-                for i, (char_x, char_y) in enumerate(self.character_positions):
-                    if char_x < x < char_x + self.character_images[i].get_width() and char_y < y < char_y + self.character_images[i].get_height():
-                        # Character clicked, toggle selection
-                        if i in self.selected_characters:
-                            self.selected_characters.remove(i)
-                            print("Spieler wurde entfernt")
-                        else:
-                            self.selected_characters.append(i)
-                            print("spieler hinzugefügt")
-        
-        if pygame.mouse.get_pressed()[0] and self.start_btn.new_press:
-            self.start_btn.new_press = False
-            if self.start_btn.check_click:
-                print("buttton clicked")
-                new_state = Game_World(self.game)
-                new_state.enter_state()
-        if not pygame.mouse.get_pressed()[0] and not self.start_btn.new_press:
-            self.start_btn.new_press = True
+        if self.start_btn.clicked:
+            print("Starting the game")
+            new_state = Game_World(self.game)
+            new_state.enter_state()        
 
         self.game.reset_keys()
 
@@ -71,9 +52,8 @@ class CharacterSelect(State):
     def get_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                exit(0)
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    self.actions["pause"] = True  
-                if event.key == pygame.K_SPACE:
-                    self.actions["note"] = True   
+                exit(0)  
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                x, y = event.pos  # Get the x, y position of the click
+                if self.start_btn.check_click(x, y):
+                    self.start_btn.clicked = not self.start_btn.clicked

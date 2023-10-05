@@ -15,6 +15,8 @@ class Note(State):
     def __init__(self, game):
         self.game = game
         State.__init__(self, game)
+
+    
         self.is_open = False
 
         #Definiere Actions
@@ -23,7 +25,7 @@ class Note(State):
         #Set the Note ,Todo: Menu Image Import
         self.note_img = pygame.image.load(os.path.join(self.game.assets_dir, "note", "cluedo_note.jpg"))
         self.note_rect = self.note_img.get_rect()
-        self.note_rect.center = (self.game.SCREEN_WIDTH * .8, self.game.SCREEN_HEIGHT * .4)
+        self.note_rect.center = (0,0)
 
 
     def update(self, delta_time, actions):

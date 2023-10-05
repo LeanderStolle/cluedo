@@ -21,14 +21,9 @@ class Title(State):
     
     def update(self, delta_time, actions):
         # Logik des Play Buttons
-        if pygame.mouse.get_pressed()[0] and self.play_btn.new_press:
-            self.play_btn.new_press = False
-            if self.play_btn.check_click:
-                print("play button is clicked")
-                new_state = CharacterSelect(self.game)
-                new_state.enter_state()
-        if not pygame.mouse.get_pressed()[0] and not self.play_btn.new_press:
-            self.play_btn.new_press = True
+        if self.play_btn.clicked:
+            new_state = CharacterSelect(self.game)
+            new_state.enter_state()
         
         self.game.reset_keys()
 
@@ -42,9 +37,9 @@ class Title(State):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 exit(0)
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    self.actions["pause"] = True  
-                if event.key == pygame.K_SPACE:
-                    self.actions["note"] = True    
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                x, y = event.pos  # Get the x, y position of the click
+                if self.play_btn.check_click(x, y):
+                    self.play_btn.clicked = not self.play_btn.clicked
+                   
         

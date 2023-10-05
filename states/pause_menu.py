@@ -11,6 +11,7 @@ class PauseMenu(State):
     def __init__(self, game):
         self.game = game
         State.__init__(self, game)
+
         self.is_open = False
 
         # Initialisiere Buttons
@@ -23,13 +24,8 @@ class PauseMenu(State):
             self.exit_state()
         self.game.reset_keys()
 
-        #Logic of the exit button
-        if pygame.mouse.get_pressed()[0] and self.exit_btn.new_press:
-            self.exit_btn.new_press = False
-            if self.exit_btn.check_click:
-                self.running, self.playing = False, False
-        if not pygame.mouse.get_pressed()[0] and not self.exit_btn.new_press:
-            self.exit_btn.new_press = True
+        if self.exit_btn.clicked:
+            exit(0)
 
     def render(self, screen):
         screen.fill((255,255,255))
