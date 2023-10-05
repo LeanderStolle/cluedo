@@ -225,6 +225,9 @@ class Game_World(State):
         return None
 
     def update(self, delta_time, actions):
+
+
+        
         if actions["pause"]:
             new_state = PauseMenu(self.game)
             new_state.is_open = True
@@ -291,7 +294,7 @@ print(gameworldinstance.find_possible_moves(gameworldinstance.find_tile_by_name(
 #  3. 29 Beweisarten initialisieren und auf dem Board platzieren (Beweiskarten maybe Optional)
 #  4. übrige Karten auf Stapel aufteilen ( Personen, Waffen, Räume), dann mischen und auch verdeckt platzieren
 #  5. von jedem Stapel (Personen, Waffe, Räume) muss eine Karte in die Fallakte (Lösung)
-#  6. Mischen der übrogen Karten und verteilen an Spieler (nicht schlimm wenn jemand mehr Karten hat als der andere)
+#  6. Mischen der übrigen Karten und verteilen an Spieler (nicht schlimm wenn jemand mehr Karten hat als der andere)
 #  7. Spielstart --> möglichkeit seine Beweiskarten anzuschauen (im eigenen Spielzug)
 #  
 # Allgemeines:
