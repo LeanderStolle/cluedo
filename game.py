@@ -77,9 +77,8 @@ class Game():
         surface.blit(text_surface, text_rect)
 
     def load_assets(self):
-        #Erstelle die Referenz zu den directories
-        self.cluedo_dir = os.getcwd()
-        self.game_dir = os.path.join(self.cluedo_dir, "cluedo")
+        #Erstelle die Referenz zu den directorie
+        self.game_dir = os.path.dirname(__file__)
         self.assets_dir = os.path.join(self.game_dir, "assets")
         self.sprite_dir = os.path.join(self.assets_dir, "sprites")
         self.font_dir = os.path.join(self.assets_dir, "font")
@@ -91,6 +90,14 @@ class Game():
         self.title_screen = Title(self)
         self.state_stack.append(self.title_screen)
 
+
+# Jetzt auch von hier startbar, sodass man nicht immer auf main gehen muss um zu testen
+if __name__ == "__main__":
+
+    g = Game()
+
+    while g.running:
+        g.game_loop()
 
 
     

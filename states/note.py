@@ -1,3 +1,12 @@
+# notiere die gezeigten Karten --> sind nicht in der Fallakte
+# 
+#
+#
+#
+#
+
+
+
 import pygame, os
 
 from states.state import State
@@ -7,6 +16,9 @@ class Note(State):
         self.game = game
         State.__init__(self, game)
         self.is_open = False
+
+        #Definiere Actions
+        self.actions = {"pause": False, "note":False}
 
         #Set the Note ,Todo: Menu Image Import
         self.note_img = pygame.image.load(os.path.join(self.game.assets_dir, "note", "cluedo_note.jpg"))

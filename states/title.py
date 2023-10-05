@@ -8,6 +8,8 @@ class Title(State):
     def __init__(self, game):
         State.__init__(self, game)
 
+        logo_img = pygame.image.load
+        
         self.play_btn = Button(self.game, "Play", self.game.SCREEN_WIDTH/2 - 75 , self.game.SCREEN_HEIGHT/2 + 25, 150, 40, True)
         self.options_btn = Button(self.game, "Options", self.game.SCREEN_WIDTH/2 - 75, self.game.SCREEN_HEIGHT/2 + 70, 150, 40, True)
     
@@ -32,7 +34,7 @@ class Title(State):
     def get_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                self.running, self.playing = False, False
+                exit(0)
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.actions["pause"] = True  
