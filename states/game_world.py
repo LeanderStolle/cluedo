@@ -277,17 +277,11 @@ class Game_World(State):
                 if event.key == pygame.K_SPACE:
                     self.actions["note"] = True    
             if event.type == pygame.MOUSEBUTTONDOWN:
-                self.x, self.y = event.pos  # Get the x, y position of the click
-                clicked_tile = self.handle_click(self.x, self.y, self.board)
-                print(clicked_tile)
+                x, y = event.pos  # Get the x, y position of the click
+                if self.find_tile_at_position(x,y) in self.board:
+                    print(self.find_tile_at_position(x,y).name)
 
-gameworldinstance = Game_World("game")
-tile = gameworldinstance.find_tile_by_name("Floor1")
-x = tile.x
-y = tile.y
-print(gameworldinstance.tile_get_name_from_coordinates(200,0))
-print(gameworldinstance.get_neighbours(gameworldinstance.find_tile_by_name("Floor47")))
-print(gameworldinstance.find_possible_moves(gameworldinstance.find_tile_by_name("Floor47"), 5))
+
 
 
 #TO-DO:
