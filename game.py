@@ -27,7 +27,7 @@ class Game():
         #State Stack
         self.state_stack = []
 
-        #Laden der Assets
+        #Laden der Assets/states
         self.load_assets()
         self.load_states()
 
@@ -52,7 +52,7 @@ class Game():
 
     def update(self):
         #Führt die Update Funktion für das letzte Objekt im State_Stack aus
-        self.state_stack[-1].update(self.dt, self.actions)
+        self.state_stack[-1].update(self.dt, self.state_stack[-1].actions)
 
     def render(self):
         self.state_stack[-1].render(self.screen)

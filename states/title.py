@@ -1,13 +1,15 @@
 import pygame, os
 from states.state import State
 
-from states.character_select import CharacterSelect
+from states.player_select import PlayerSelect
 from button import Button
 
 
 class Title(State):
     def __init__(self, game):
         State.__init__(self, game)
+
+        self.actions = {"pause": False, "note":False}
 
         
         self.logo_img = pygame.image.load(os.path.join(self.game.assets_dir, "logo", "cluedo_logo.png"))
@@ -22,7 +24,7 @@ class Title(State):
     def update(self, delta_time, actions):
         # Logik des Play Buttons
         if self.play_btn.clicked:
-            new_state = CharacterSelect(self.game)
+            new_state = PlayerSelect(self.game)
             new_state.enter_state()
         
         self.game.reset_keys()

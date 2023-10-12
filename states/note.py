@@ -16,7 +16,7 @@ class Note(State):
         self.game = game
         State.__init__(self, game)
 
-    
+
         self.is_open = False
 
         #Definiere Actions
@@ -37,3 +37,17 @@ class Note(State):
     def render(self, screen):
         self.prev_state.render(screen)
         screen.blit(self.note_img, self.note_rect)
+
+    
+    def get_events(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                exit(0)
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    self.actions["pause"] = True  
+                if event.key == pygame.K_SPACE:
+                    self.actions["note"] = True
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                x, y = event.pos  # Get the x, y position of the click
+                #do something with the clicked coordinates 

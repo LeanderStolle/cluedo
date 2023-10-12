@@ -12,6 +12,8 @@ class PauseMenu(State):
         self.game = game
         State.__init__(self, game)
 
+        self.actions = {"pause": False}
+
         self.is_open = False
 
         # Initialisiere Buttons
@@ -22,12 +24,13 @@ class PauseMenu(State):
         if actions["pause"] and self.is_open:
             self.is_open = False
             self.exit_state()
-        self.game.reset_keys()
-
         if self.exit_btn.clicked:
-            exit(0)
+            exit(0)    
+        
+
 
     def render(self, screen):
+        self.prev_state.render(screen)
         screen.fill((255,255,255))
         self.game.draw_title_text(screen, "-Paused-", (0,0,0), self.game.SCREEN_WIDTH/2, self.game.SCREEN_HEIGHT/2 - 200)
         self.exit_btn.draw()
@@ -39,6 +42,8 @@ class PauseMenu(State):
                 exit(0)
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    self.actions["pause"] = True  
-                if event.key == pygame.K_SPACE:
-                    self.actions["note"] = True  
+                    self.actions["pause"] = True 
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                x, y = event.pos  # Get the x, y position of the click
+                if self.exit_btn.check_click(x, y):
+                    self.exit_btn.clicked = not self.exit_btn.clicked  

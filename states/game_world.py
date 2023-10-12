@@ -5,13 +5,13 @@ from states.pause_menu import PauseMenu
 from states.note import Note
 from Tile import Tile
 from Colors import *
+from player import PlayerFactory
 
 class Game_World(State):
-    def __init__(self, game):
+    def __init__(self, game, selected_players):
         State.__init__(self, game)
-        #TO-DO: Implentieren der Tiles
-        #self.map_img_unscaled = pygame.image.load(os.path.join(self.game.assets_dir, "map", "clue_board1.jpg"))
-        #self.map_img = pygame.transform.scale(self.map_img_unscaled, (960, 960))
+        
+
         self.board = [ Tile('Floor1', 'Floor', 150, 0, 50, 50, (TileFloorColor.get_color())),
                       Tile('Floor2', 'Floor', 200, 0, 50, 50, (TileFloorColor.get_color())),
                       Tile('Floor3', 'Floor', 200, 50, 50, 50, (TileFloorColor.get_color())),
@@ -160,9 +160,18 @@ class Game_World(State):
                           Tile('Hall','Room',255,605,145,145,(TileRoomColor.get_color())),
                             Tile('Lounge','Room',0,555,145,195,(TileRoomColor.get_color())),
                        ]
-        #Definiere Actions
+        # Definiere Actions
         self.actions = {"pause": False, "note":False}
 
+        self.selected_players = selected_players
+        
+        tmp_list = []
+        factory = PlayerFactory()
+        for elem in self.selected_players:
+            tmp_list.append(factory.create_player(elem))
+
+        # Override selected players list containing color codes with actual object based on colors
+        self.selected_players = tmp_list
 
     def get_neighbours(self, given_tile):
         neighbours = []
@@ -226,7 +235,6 @@ class Game_World(State):
 
     def update(self, delta_time, actions):        
         if actions["pause"]:
-            print(self.actions["pause"])
             new_state = PauseMenu(self.game)
             new_state.is_open = True
             new_state.enter_state()
@@ -271,21 +279,11 @@ class Game_World(State):
                 if event.key == pygame.K_ESCAPE:
                     self.actions["pause"] = True  
                 if event.key == pygame.K_SPACE:
-                    self.actions["note"] = True
-                    print("space is pressed")    
+                    self.actions["note"] = True   
             if event.type == pygame.MOUSEBUTTONDOWN:
                 self.x, self.y = event.pos  # Get the x, y position of the click
                 clicked_tile = self.handle_click(self.x, self.y, self.board)
                 print(clicked_tile)
-
-gameworldinstance = Game_World("game")
-tile = gameworldinstance.find_tile_by_name("Floor1")
-x = tile.x
-y = tile.y
-print(gameworldinstance.tile_get_name_from_coordinates(200,0))
-print(gameworldinstance.get_neighbours(gameworldinstance.find_tile_by_name("Floor47")))
-print(gameworldinstance.find_possible_moves(gameworldinstance.find_tile_by_name("Floor47"), 5))
-
 
 #TO-DO:
 #  1. Alle Spielfiguren platzieren
@@ -300,9 +298,5 @@ print(gameworldinstance.find_possible_moves(gameworldinstance.find_tile_by_name(
 # - maybe ein Turnhandler? damit
 # - maybe UI mit aktivem Spielernamen, Buttons fürs Würfel, anschuldigen, karten anschauen, notes taken
 #
+# actions für jeden State definieren und in game.py bei update die actions für jeden State mitgeben
 
-
-
-
-
- 

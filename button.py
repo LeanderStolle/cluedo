@@ -37,27 +37,29 @@ class Button:
 
 
 class ImgButton:
-    def __init__(self, game, x_pos, y_pos, image, scale, enabled):
+    def __init__(self, game, x_pos, y_pos, image, click_image, scale, enabled):
         self.game = game
+        self.clicked = False
         self.x_pos = x_pos
         self.y_pos = y_pos
         self.width = image.get_width()
         self.height = image.get_height()
-        self.image = pygame.transform.scale(image, (int(self.width * scale), int(self.height * scale)))
+        self.original_image = image
+        self.click_image = click_image
+        self.image = self.original_image
+        #self.image = pygame.transform.scale(image, (int(self.width * scale), int(self.height * scale)))
         self.button_rect = self.image.get_rect()
         self.button_rect.topleft = (x_pos, y_pos)
-
         self.enabled = enabled
-        self.clicked = False
 
     def draw(self):
-        action = False
-        mouse_pos = pygame.mouse.get_pos()
-
-        if self.button_rect.collidepoint(mouse_pos):
-            if pygame.mouse.get_pressed()[0] == 1 and self.clicked == False:
-                self.clicked = True
-                action = True
-        if pygame.mouse.get_pressed()[0] == 0:
-            self.clicked = False
+        self.image = self.click_image if self.clicked else self.original_image
         self.game.screen.blit(self.image, (self.button_rect.x, self.button_rect.y))
+
+    def check_click(self, x, y):
+        mouse_pos = (x, y)
+        if self.button_rect.collidepoint(mouse_pos) and self.enabled:
+            return True
+        else:
+            return False
+            
