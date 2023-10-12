@@ -3,7 +3,7 @@ import pygame, os
 from states.state import State
 from states.pause_menu import PauseMenu
 from states.note import Note
-from Tile import Tile
+from tile import Tile
 from colors import *
 from player import PlayerFactory
 
