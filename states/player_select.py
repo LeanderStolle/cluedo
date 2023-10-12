@@ -54,54 +54,51 @@ class PlayerSelect(State):
 
     def update(self, delta_time, actions):
         if self.start_btn.clicked:
+            
+            if self.player_red_btn.clicked:
+                if PlayerColor.RED not in self.selected_players:
+                    self.selected_players.append(PlayerColor.RED)
+                else:
+                    self.selected_players.remove(PlayerColor.RED)
+
+            if self.player_yellow_btn.clicked:
+                if PlayerColor.YELLOW not in self.selected_players:
+                    self.selected_players.append(PlayerColor.YELLOW)
+                else:
+                    self.selected_players.remove(PlayerColor.YELLOW)
+  
+
+            if self.player_pink_btn.clicked:  
+                if PlayerColor.PINK not in self.selected_players:
+                    self.selected_players.append(PlayerColor.PINK)
+                else:
+                    self.selected_players.remove(PlayerColor.PINK)
+
+        
+            if self.player_green_btn.clicked:    
+                if PlayerColor.GREEN not in self.selected_players:
+                    self.selected_players.append(PlayerColor.GREEN)
+                else:
+                    self.selected_players.remove(PlayerColor.GREEN)
+
+            if self.player_blue_btn.clicked:
+                if PlayerColor.BLUE not in self.selected_players:
+                    self.selected_players.append(PlayerColor.BLUE)
+                else:
+                    self.selected_players.remove(PlayerColor.BLUE)
+
+            if self.player_purple_btn.clicked:   
+                if PlayerColor.PURPLE not in self.selected_players:
+                    self.selected_players.append(PlayerColor.PURPLE)
+                else:
+                    self.selected_players.remove(PlayerColor.PURPLE)
+
             print( "\n" and self.selected_players)
             print(len(self.selected_players))
             new_state = Game_World(self.game, self.selected_players)
             new_state.enter_state()
         
-        if self.player_red_btn.clicked:
-            if PlayerColor.RED not in self.selected_players:
-                self.selected_players.append(PlayerColor.RED)
-            else:
-                self.selected_players.remove(PlayerColor.RED)
-
-        if self.player_yellow_btn.clicked:
-            if PlayerColor.YELLOW not in self.selected_players:
-                self.selected_players.append(PlayerColor.YELLOW)
-            else:
-                self.selected_players.remove(PlayerColor.YELLOW)
-  
-
-        if self.player_pink_btn.clicked:  
-            if PlayerColor.PINK not in self.selected_players:
-                self.selected_players.append(PlayerColor.PINK)
-            else:
-                self.selected_players.remove(PlayerColor.PINK)
-
         
-        if self.player_green_btn.clicked:    
-            if PlayerColor.GREEN not in self.selected_players:
-                self.selected_players.append(PlayerColor.GREEN)
-            else:
-                self.selected_players.remove(PlayerColor.GREEN)
-
-        if self.player_blue_btn.clicked:
-            if PlayerColor.BLUE not in self.selected_players:
-                self.selected_players.append(PlayerColor.BLUE)
-            else:
-                self.selected_players.remove(PlayerColor.BLUE)
-
-        if self.player_purple_btn.clicked:   
-            if PlayerColor.PURPLE not in self.selected_players:
-                self.selected_players.append(PlayerColor.PURPLE)
-            else:
-                self.selected_players.remove(PlayerColor.PURPLE)
-                
-            
-
-
-
-
             
         self.game.reset_keys()
 
