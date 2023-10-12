@@ -4,7 +4,7 @@ from states.state import State
 from states.pause_menu import PauseMenu
 from states.note import Note
 from Tile import Tile
-from Colors import *
+from colors import *
 from player import PlayerFactory
 
 class Game_World(State):
