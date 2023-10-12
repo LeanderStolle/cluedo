@@ -7,7 +7,7 @@ class Game():
     def __init__(self):
         pygame.init()
         #Displayvariablen festlegen
-        self.SCREEN_WIDTH, self.SCREEN_HEIGHT = 1280, 960
+        self.SCREEN_WIDTH, self.SCREEN_HEIGHT = 650, 960
         self.screen = pygame.display.set_mode((self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
         pygame.display.set_caption("Cluedo a Detective Game!")
         self.fps = 60
@@ -27,7 +27,7 @@ class Game():
         #State Stack
         self.state_stack = []
 
-        #Laden der Assets
+        #Laden der Assets/states
         self.load_assets()
         self.load_states()
 
@@ -52,7 +52,7 @@ class Game():
 
     def update(self):
         #Führt die Update Funktion für das letzte Objekt im State_Stack aus
-        self.state_stack[-1].update(self.dt, self.actions)
+        self.state_stack[-1].update(self.dt, self.state_stack[-1].actions)
 
     def render(self):
         self.state_stack[-1].render(self.screen)
@@ -77,7 +77,7 @@ class Game():
         surface.blit(text_surface, text_rect)
 
     def load_assets(self):
-        #Erstelle die Referenz zu den directorie
+        #Erstelle die Referenz zu den directories
         self.game_dir = os.path.dirname(__file__)
         self.assets_dir = os.path.join(self.game_dir, "assets")
         self.sprite_dir = os.path.join(self.assets_dir, "sprites")
