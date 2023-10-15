@@ -173,13 +173,12 @@ class Game_World(State):
         for elem in self.selected_players:
             self.tmp_list.append(factory.create_player(elem))
 
-
-
+        self.active_players = self.tmp_list
 
         # Turnhandler
-        turnhandler = TurnHandler(self.selected_players)
+        self.turnhandler = TurnHandler(self.active_players)
 
-        print(turnhandler.current_player)
+        print(self.turnhandler.current_player)
 
     def get_neighbours(self, given_tile):
         neighbours = []
@@ -285,10 +284,10 @@ class Game_World(State):
                 screen.blit(text, text_rect)
 
     def draw_players(self, screen):
-        for player in self.tmp_list:
+        for player in self.active_players:
 
             tile_center = self.find_tile_by_name(player.tile).get_center()
-            if player == active_player:
+            if player == self.turnhandler.current_player:
                 pygame.draw.circle(screen, (255, 255, 255), tile_center, 10)
                 pygame.draw.circle(screen, player.rgb,tile_center,6)
             else:
@@ -310,16 +309,22 @@ class Game_World(State):
                     print(self.find_tile_at_position(x,y).name)
 
 #TO-DO:
-#  1. Alle Spielfiguren platzieren
 #  2. Waffen platzieren
-#  3. 29 Beweisarten initialisieren und auf dem Board platzieren (Beweiskarten maybe Optional)
-#  4. übrige Karten auf Stapel aufteilen ( Personen, Waffen, Räume), dann mischen und auch verdeckt platzieren
-#  5. von jedem Stapel (Personen, Waffe, Räume) muss eine Karte in die Fallakte (Lösung)
-#  6. Mischen der übrigen Karten und verteilen an Spieler (nicht schlimm wenn jemand mehr Karten hat als der andere)
-#  7. Spielstart --> möglichkeit seine Beweiskarten anzuschauen (im eigenen Spielzug)
+#  4. übrige Karten auf Stapel aufteilen ( Personen, Waffen, Räume), dann mischen und auch verdeckt platzieren --> Jan
+#  5. von jedem Stapel (Personen, Waffe, Räume) muss eine Karte in die Fallakte (Lösung) --> Jan
+#  6. Mischen der übrigen Karten und verteilen an Spieler (nicht schlimm wenn jemand mehr Karten hat als der andere) --> Jan
+#  7. Spielstart --> möglichkeit seine Karten anzuschauen (im eigenen Spielzug)
+#     roll dice --> passiert am anfang des zuges von jedem Player
+
+
+# Notwendige Buttons: --> Leander
+# - show cards (bilder?)
+# - end turn --> prio
+# - note???
+# - suspect button
+# - accuse button
 #  
 # Allgemeines:
-# - maybe ein Turnhandler? damit
 # - maybe UI mit aktivem Spielernamen, Buttons fürs Würfel, anschuldigen, karten anschauen, notes taken
 #
 # actions für jeden State definieren und in game.py bei update die actions für jeden State mitgeben
