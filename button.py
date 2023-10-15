@@ -24,7 +24,7 @@ class Button:
     def draw(self):
         pygame.draw.rect(self.game.screen, "light gray", self.button_rect, 0, 5)
         pygame.draw.rect(self.game.screen, "black", self.button_rect, 2, 5)
-        self.game.screen.blit(self.button_text, (self.x_pos + 3, self.y_pos + 3))
+        self.game.screen.blit(self.button_text, (self.x_pos + 5, self.y_pos + 3))
 
     def check_click(self, x, y):
         mouse_pos = (x, y)

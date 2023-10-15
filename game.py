@@ -91,7 +91,7 @@ class Game():
         self.state_stack.append(self.title_screen)
 
 
-# Jetzt auch von hier startbar, sodass man nicht immer auf main gehen muss um zu testen
+# not you can start the game from the game class
 if __name__ == "__main__":
 
     g = Game()

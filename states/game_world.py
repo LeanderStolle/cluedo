@@ -6,6 +6,7 @@ from states.note import Note
 from tile import Tile
 from colors import *
 from player import PlayerFactory
+from turn_handler import *
 
 class Game_World(State):
     def __init__(self, game, selected_players):
@@ -163,6 +164,8 @@ class Game_World(State):
         # Definiere Actions
         self.actions = {"pause": False, "note":False}
 
+
+        # Player related shit
         self.selected_players = selected_players
         
         self.tmp_list = []
@@ -172,6 +175,11 @@ class Game_World(State):
 
 
 
+
+        # Turnhandler
+        turnhandler = TurnHandler(self.selected_players)
+
+        print(turnhandler.current_player)
 
     def get_neighbours(self, given_tile):
         neighbours = []

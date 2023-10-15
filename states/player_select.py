@@ -35,7 +35,7 @@ class PlayerSelect(State):
         self.player_purple_btn = ImgButton(self.game, 500, 300, self.img_player_purple, self.img_player_purple_clicked, 1, True)
 
 
-        self.start_btn = Button(self.game, "Start the Game!", self.game.SCREEN_WIDTH/2 - 75 , self.game.SCREEN_HEIGHT/2 + 25, 200, 40, True)
+        self.start_btn = Button(self.game, "Start the Game!", self.game.SCREEN_WIDTH/2 - 75 , self.game.SCREEN_HEIGHT/2 + 25, 175, 40, True)
 
 
         # Playerstuff
@@ -93,10 +93,14 @@ class PlayerSelect(State):
                 else:
                     self.selected_players.remove(PlayerColor.PURPLE)
 
-            print( "\n" and self.selected_players)
-            print(len(self.selected_players))
-            new_state = Game_World(self.game, self.selected_players)
-            new_state.enter_state()
+            if len(self.selected_players) <= 1:
+                # TODO add text telling the player to select more players than 1
+                pass
+            else:
+                print( "\n" and self.selected_players)
+                print(len(self.selected_players))
+                new_state = Game_World(self.game, self.selected_players)
+                new_state.enter_state()
         
         
             
@@ -104,6 +108,7 @@ class PlayerSelect(State):
 
     def render(self, screen):
         screen.fill((255, 255, 255))  # Clear the screen
+        self.game.draw_title_text(screen, "Choose your Character!", "black", 325, 50)
         self.player_red_btn.draw()
         self.player_yellow_btn.draw()
         self.player_pink_btn.draw()
