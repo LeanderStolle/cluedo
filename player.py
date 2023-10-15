@@ -2,6 +2,11 @@ import pygame
 import random
 from enum import Enum
 
+import colors
+from colors import *
+from tile import *
+from states.game_world import *
+
 class PlayerColor(Enum):
     RED = 1
     YELLOW = 2
@@ -16,26 +21,27 @@ class PlayerFactory():
 
     def create_player(self, color: PlayerColor):
         if color == PlayerColor.RED:
-            return Player("Miss Gloria", PlayerColor.RED, 0, 0)
+            return Player("Miss Gloria", PlayerColor.RED, colors.Red.get_color(), "Floor41",1)
         if color == PlayerColor.YELLOW:
-            return Player("Colonel Mustard", PlayerColor.YELLOW, 0, 0)
+            return Player("Colonel Mustard", PlayerColor.YELLOW, colors.Yellow.get_color(),"Floor87",2)
         if color == PlayerColor.PINK:
-            return Player("Mrs. Orchidee", PlayerColor.PINK, 0, 0)
+            return Player("Mrs. Orchidee", PlayerColor.PINK, colors.Pink.get_color(), "Floor27",3)
         if color == PlayerColor.GREEN:
-            return Player("Reverend Green", PlayerColor.GREEN, 0, 0)
+            return Player("Reverend Green", PlayerColor.GREEN, colors.Green.get_color(), "Floor97",4)
         if color == PlayerColor.BLUE:
-            return Player("Mrs. Porz", PlayerColor.BLUE, 0, 0)
+            return Player("Mrs. Porz", PlayerColor.BLUE, colors.Blue.get_color(), "Floor9",5)
         if color == PlayerColor.PURPLE:
-            return Player("Prof. Bloom", PlayerColor.PURPLE, 0, 0)
+            return Player("Prof. Bloom", PlayerColor.PURPLE, colors.Purple.get_color(), "Floor106",6)
 
 
 class Player:
-    def __init__(self, name: str, color: PlayerColor, x_pos: int, y_pos:int):
+    def __init__(self, name: str, color: PlayerColor,rgb, tile,turn_number):
         self.name = name
         self.color = color
-        self.x_pos = x_pos
-        self.y_pos = y_pos
+        self.rgb = rgb
+        self.tile = tile
         self.card_list = []
+        self.turn_number = turn_number
 
     def add_card_to_stack(self, card):
         self.card_list.append(card)

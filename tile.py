@@ -26,6 +26,11 @@ class Tile:
     def get_size(self):
         return (self.width, self.height)
 
+    def get_center(self):
+        center_x = self.x + self.width / 2
+        center_y = self.y + self.height / 2
+        return center_x,center_y
+
     def get_color(self):
         return self.color
     def get_name(self):

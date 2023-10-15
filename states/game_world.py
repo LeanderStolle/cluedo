@@ -151,7 +151,7 @@ class Game_World(State):
                         Tile('Wall28', 'Wall', 0, 550, 100, 5, (TileWallColor.get_color())),
                         Tile('Wall29', 'Wall', 145, 550, 5, 200, (TileWallColor.get_color())),
                       Tile("Kitchen", "Room", 0, 0, 145, 145, (TileRoomColor.get_color())),
-                      Tile('Dining Room', 'Room', 255, 0, 145, 145, (TileRoomColor.get_color())),
+                      Tile('Ball Room', 'Room', 255, 0, 145, 145, (TileRoomColor.get_color())),
                         Tile('Conservatory','Room',505,0,150,95,(TileRoomColor.get_color())),
                        Tile('Billiard Room','Room',505,255,150,90,(TileRoomColor.get_color())),
                        Tile('Dining Room','Room',0,255,145,145,(TileRoomColor.get_color())),
@@ -165,13 +165,13 @@ class Game_World(State):
 
         self.selected_players = selected_players
         
-        tmp_list = []
+        self.tmp_list = []
         factory = PlayerFactory()
         for elem in self.selected_players:
-            tmp_list.append(factory.create_player(elem))
+            self.tmp_list.append(factory.create_player(elem))
 
-        # Override selected players list containing color codes with actual object based on colors
-        self.selected_players = tmp_list
+
+
 
     def get_neighbours(self, given_tile):
         neighbours = []
@@ -229,7 +229,6 @@ class Game_World(State):
     def find_tile_by_name(self, name):
         for tile in self.board:
             if tile.name == name:
-                print(tile.name)
                 return tile
         return None
 
@@ -247,6 +246,7 @@ class Game_World(State):
     def render(self, screen):
         screen.fill((255,255,255))
         self.draw_board(screen)
+        self.draw_players(screen)
         
 
     def handle_click(self, x, y, board):
@@ -275,6 +275,17 @@ class Game_World(State):
                 text = font.render(tile.name, True, (0, 0, 0))  # Text color: (0, 0, 0) is black
                 text_rect = text.get_rect(center=(tile.x + tile.width // 2, tile.y + tile.height // 2))
                 screen.blit(text, text_rect)
+
+    def draw_players(self, screen):
+        for player in self.tmp_list:
+
+            tile_center = self.find_tile_by_name(player.tile).get_center()
+            if player == active_player:
+                pygame.draw.circle(screen, (255, 255, 255), tile_center, 10)
+                pygame.draw.circle(screen, player.rgb,tile_center,6)
+            else:
+                pygame.draw.circle(screen, player.rgb, tile_center, 6)
+
 
     def get_events(self):
         for event in pygame.event.get():
@@ -305,3 +316,4 @@ class Game_World(State):
 #
 # actions für jeden State definieren und in game.py bei update die actions für jeden State mitgeben
 
+#macht keinen sinn board in gameworld klasse zu speichern da man immer ein objekt erstellen muss um es zu referenzieren
