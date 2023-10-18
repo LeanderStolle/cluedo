@@ -7,6 +7,7 @@ from tile import Tile
 from colors import *
 from player import PlayerFactory
 from turn_handler import *
+from button import Button
 
 class Game_World(State):
     def __init__(self, game, selected_players):
@@ -180,6 +181,20 @@ class Game_World(State):
 
         print(self.turnhandler.current_player)
 
+        # Buttons for player interaction
+        self.dice_btn = Button(self.game, "Dice", 25, 800, 100, 40, True)
+        self.suspect_btn = Button(self.game, "Suspect", 150, 800, 100, 40, True)
+        self.accuse_btn = Button(self.game, "Accuse", 275, 800, 100, 40, True)
+        self.endturn_btn = Button(self.game, "End Turn", 25, 900, 150, 40, True)
+        self.cards_btn = Button(self.game, "Show Cards", 200, 900, 150, 40, True)
+
+        # Text for player interaction
+        self.active_player_text = "test"
+        self.popup_text = "test1"
+
+
+
+
     def get_neighbours(self, given_tile):
         neighbours = []
         for tile in self.board:
@@ -240,20 +255,31 @@ class Game_World(State):
         return None
 
     def update(self, delta_time, actions):        
-        if actions["pause"]:
-            new_state = PauseMenu(self.game)
-            new_state.is_open = True
-            new_state.enter_state()
-        elif actions["note"]:
-            new_state = Note(self.game)
-            new_state.is_open = True
-            new_state.enter_state()
+        if self.dice_btn.clicked:
+            pass # Roll a die
+        if self.cards_btn.clicked:
+            pass #show cards logic
+        if self.suspect_btn.clicked:
+            pass # suspect logic
+        if self.accuse_btn.clicked:
+            pass #  accuse logic
+        if self.endturn_btn.clicked:
+            self.turnhandler.end_turn() # Endturn logic
         self.game.reset_keys()
 
     def render(self, screen):
         screen.fill((255,255,255))
         self.draw_board(screen)
         self.draw_players(screen)
+        # Buttons
+        self.dice_btn.draw()
+        self.cards_btn.draw()
+        self.suspect_btn.draw()
+        self.accuse_btn.draw()
+        self.endturn_btn.draw()
+        # Text
+        self.game.draw_text(screen, ("Its " + str(self.turnhandler.current_player) + "´s turn!") , "black", 400, 800)
+        pygame.display.flip()  # Update the display
         
 
     def handle_click(self, x, y, board):
@@ -307,6 +333,16 @@ class Game_World(State):
                 x, y = event.pos  # Get the x, y position of the click
                 if self.find_tile_at_position(x,y) in self.board:
                     print(self.find_tile_at_position(x,y).name)
+                if self.dice_btn.check_click(x,y):
+                    self.dice_btn.clicked = not self.dice_btn.clicked
+                if self.cards_btn.check_click(x,y):
+                    self.cards_btn.clicked = not self.cards_btn.clicked
+                if self.suspect_btn.check_click(x,y):
+                    self.suspect_btn.clicked = not self.suspect_btn.clicked
+                if self.accuse_btn.check_click(x,y):
+                    self.accuse_btn.clicked = not self.accuse_btn.clicked
+                if self.endturn_btn.check_click(x,y):
+                    self.endturn_btn.clicked = not self.endturn_btn.clicked
 
 #TO-DO:
 #  2. Waffen platzieren
