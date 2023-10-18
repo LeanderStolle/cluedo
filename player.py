@@ -45,3 +45,6 @@ class Player:
 
     def add_card_to_stack(self, card):
         self.card_list.append(card)
+
+    def get_name(self):
+        return self.name

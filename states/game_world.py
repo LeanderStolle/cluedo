@@ -278,7 +278,7 @@ class Game_World(State):
         self.accuse_btn.draw()
         self.endturn_btn.draw()
         # Text
-        self.game.draw_text(screen, ("Its " + str(self.turnhandler.current_player) + "´s turn!") , "black", 400, 800)
+        self.game.draw_text(screen, ("Its " +str(self.turnhandler.current_player.name) + "´s turn!") , "black", 400, 800)
         pygame.display.flip()  # Update the display
         
 
@@ -342,7 +342,9 @@ class Game_World(State):
                 if self.accuse_btn.check_click(x,y):
                     self.accuse_btn.clicked = not self.accuse_btn.clicked
                 if self.endturn_btn.check_click(x,y):
-                    self.endturn_btn.clicked = not self.endturn_btn.clicked
+                    current
+
+
 
 #TO-DO:
 #  2. Waffen platzieren
