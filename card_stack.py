@@ -27,6 +27,10 @@ weapon_cardstack = CardStack([Rope_Card, Wrench_Card, Revolver_Card, Knife_Card,
 character_cardstack = CardStack([Miss_Scarlett_Card, Colonel_Mustard_Card, Mrs_White_Card, Mr_Green_Card, Mrs_Peacock_Card, Professor_Plum_Card])
 room_cardstack = CardStack([Kitchen_Card, Ballroom_Card, Conservatory_Card, Dining_Room_Card, Billiard_Room_Card, Library_Card, Lounge_Card, Hall_Card, Study_Card])
 
+weapon_cardstack.shuffle_cards()
+character_cardstack.shuffle_cards()
+room_cardstack.shuffle_cards()
+
 Case_File = [weapon_cardstack.draw_card(), character_cardstack.draw_card(), room_cardstack.draw_card()]
 
 combined_cardstack = weapon_cardstack + (room_cardstack + character_cardstack)

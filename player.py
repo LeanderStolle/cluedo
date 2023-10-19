@@ -6,7 +6,7 @@ import colors
 from colors import *
 from tile import *
 from states.game_world import *
-
+from card import *
 class PlayerColor(Enum):
     RED = 1
     YELLOW = 2
