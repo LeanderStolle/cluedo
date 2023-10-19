@@ -1,7 +1,7 @@
 import pygame, random
-import Weapon
-import Characters
-import Room
+import weapon
+
+from card import *
 
 
 class CardStack:
@@ -18,9 +18,21 @@ class CardStack:
         random.shuffle(self.cards)
 
     def __add__(self, other):
-        self.cards.append(other)
-        return self
+        # Create a new instance of CardStack with combined cards
+        return CardStack(self.cards + other.cards)
+    def __len__(self):
+        return len(self.cards)
 
-weapon_cardstack = CardStack([Weapon.Seil, Weapon.Dolch, Weapon.Pistole, Weapon.Heizungsrohr, Weapon.Rohrzange, Weapon.Kerzenständer])
-character_cardstack = CardStack([Characters.Miss_Scarlett, Characters.Colonel_Mustard, Characters.Mrs_White, Characters.Mr_Green, Characters.Mrs_Peacock, Characters.Professor_Plum])
-room_cardstack = CardStack([Room.Ballroom, Room.Billiard_Room, Room.Conservatory, Room.Dining_Room, Room.Hall, Room.Kitchen, Room.Library, Room.Lounge, Room.Study])
+weapon_cardstack = CardStack([Rope_Card, Wrench_Card, Revolver_Card, Knife_Card, Candlestick_Card, Lead_Pipe_Card])
+character_cardstack = CardStack([Miss_Scarlett_Card, Colonel_Mustard_Card, Mrs_White_Card, Mr_Green_Card, Mrs_Peacock_Card, Professor_Plum_Card])
+room_cardstack = CardStack([Kitchen_Card, Ballroom_Card, Conservatory_Card, Dining_Room_Card, Billiard_Room_Card, Library_Card, Lounge_Card, Hall_Card, Study_Card])
+
+Case_File = [weapon_cardstack.draw_card(), character_cardstack.draw_card(), room_cardstack.draw_card()]
+
+combined_cardstack = weapon_cardstack + (room_cardstack + character_cardstack)
+
+combined_cardstack.shuffle_cards()
+
+drawn_card =combined_cardstack.draw_card()
+print([card.get_name() for card in Case_File])
+print(drawn_card.get_name())

@@ -6,14 +6,10 @@
 
 import pygame, random
 from states.state import State
-from states.game_world import Game_World
-from button import Button
 
 
 class Dice(State):
-    def __init__(self, game):
-        State.__init__(self, game) 
-
+    def __init__(self):
         self.dice1 = 0
         self.dice2 = 0
 

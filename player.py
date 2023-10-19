@@ -43,7 +43,7 @@ class Player:
         self.card_list = []
         self.turn_number = turn_number
 
-    def add_card_to_stack(self, card):
+    def add_card(self, card):
         self.card_list.append(card)
 
     def get_name(self):

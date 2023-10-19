@@ -5,9 +5,11 @@ from states.pause_menu import PauseMenu
 from states.note import Note
 from tile import Tile
 from colors import *
-from player import PlayerFactory
+from player import *
 from turn_handler import *
 from button import Button
+from card_stack import *
+from states.dice import *
 
 class Game_World(State):
     def __init__(self, game, selected_players):
@@ -166,6 +168,9 @@ class Game_World(State):
         self.actions = {"pause": False, "note":False}
 
 
+        self.dice = Dice()
+        self.dice.roll()
+        self.dice_result = self.dice.get_result()
         # Player related shit
         self.selected_players = selected_players
         
@@ -176,23 +181,45 @@ class Game_World(State):
 
         self.active_players = self.tmp_list
 
+        def give_cards_to_players():
+            num_players = len(self.active_players)
+            cards_per_player = len(combined_cardstack) // num_players
+            remaining_cards = len(combined_cardstack) % num_players
+
+            for player in self.active_players:
+                num_cards_to_draw = cards_per_player
+                if remaining_cards > 0:
+                    num_cards_to_draw += 1
+                    remaining_cards -= 1
+
+                for _ in range(num_cards_to_draw):
+                    player.add_card(combined_cardstack.draw_card())
+
+        give_cards_to_players()
+
+        def print_cards_of_each_player():
+            for player in self.active_players:
+                print("player name:" + player.name)
+                for card in player.card_list:
+                    print(card.name)
+        print_cards_of_each_player()
         # Turnhandler
         self.turnhandler = TurnHandler(self.active_players)
 
         print(self.turnhandler.current_player)
 
         # Buttons for player interaction
-        self.dice_btn = Button(self.game, "Dice", 25, 800, 100, 40, True)
         self.suspect_btn = Button(self.game, "Suspect", 150, 800, 100, 40, True)
         self.accuse_btn = Button(self.game, "Accuse", 275, 800, 100, 40, True)
         self.endturn_btn = Button(self.game, "End Turn", 25, 900, 150, 40, True)
         self.cards_btn = Button(self.game, "Show Cards", 200, 900, 150, 40, True)
+        self.back_btn = Button(self.game, "Back", 300, 600, 150, 40, True)
 
         # Text for player interaction
         self.active_player_text = "test"
         self.popup_text = "test1"
 
-
+        self.cardv = False
 
 
     def get_neighbours(self, given_tile):
@@ -254,31 +281,36 @@ class Game_World(State):
                 return tile
         return None
 
-    def update(self, delta_time, actions):        
-        if self.dice_btn.clicked:
-            pass # Roll a die
+    def update(self, delta_time, actions):
         if self.cards_btn.clicked:
-            pass #show cards logic
+            self.cardv = True
+            self.cards_btn.clicked = False
+        if self.back_btn.clicked:
+            self.cardv = False
+            self.back_btn.clicked = False
         if self.suspect_btn.clicked:
             pass # suspect logic
         if self.accuse_btn.clicked:
             pass #  accuse logic
         if self.endturn_btn.clicked:
+            self.dice.roll()
+            self.dice_result = self.dice.get_result()
             self.turnhandler.end_turn() # Endturn logic
+            self.endturn_btn.clicked = False
         self.game.reset_keys()
 
     def render(self, screen):
         screen.fill((255,255,255))
         self.draw_board(screen)
         self.draw_players(screen)
-        # Buttons
-        self.dice_btn.draw()
+        self.draw_player_hand(self.turnhandler.current_player, (0, 0), screen)
         self.cards_btn.draw()
         self.suspect_btn.draw()
         self.accuse_btn.draw()
         self.endturn_btn.draw()
-        # Text
         self.game.draw_text(screen, ("Its " +str(self.turnhandler.current_player.name) + "´s turn!") , "black", 400, 800)
+        self.game.draw_text(screen, ("You rolled a " + str(self.dice_result)) , "black", 400, 850)
+        self.draw_player_hand(self.turnhandler.current_player, (0, 0), screen)
         pygame.display.flip()  # Update the display
         
 
@@ -291,7 +323,42 @@ class Game_World(State):
                     print("Hier kann man nicht hinlaufen", tile.name)
                     return tile
             return None
-    
+
+    def draw_card(self,card, position,screen):
+        x, y = position
+        card_rect = pygame.Rect(x, y, 150, 150)  # Rectangle for the card
+
+        # Set colors based on card type
+        if card.card_type == "Room":
+            card_color = (139, 69, 19)  # Brown for rooms
+        elif card.card_type == "Character":
+            card_color = (0, 0, 255)  # Blue for characters
+        elif card.card_type == "Weapon":
+            card_color = (255, 0, 0)  # Red for weapons
+
+        pygame.draw.rect(screen, card_color, card_rect)  # Draw the card rectangle
+        pygame.draw.rect(screen, (0, 0, 0), card_rect, 2)  # Draw the outline
+
+        # Draw the card type and name text
+        font = pygame.font.Font(None, 24)
+        type_text = font.render("Type: " + card.card_type, True, (255, 255, 255))
+        name_text = font.render("Name: " + card.name, True, (255, 255, 255))
+
+        screen.blit(type_text, (x + 10, y + 10))
+        screen.blit(name_text, (x + 10, y + 40))
+    # Function to draw a player's hand
+    def draw_player_hand(self,player, start_position,screen):
+        if self.cardv:
+            screen.fill((255,255,255))
+            self.back_btn.draw()
+            x, y = start_position
+            for card in player.card_list:
+                self.draw_card(card, (x, y),screen)
+                if x > 450:
+                    y += 200
+                    x = 0
+                x += 160  # Adjust this spacing based on your preference
+
     def draw_board(self, screen):
         for row in range(len(self.board)):
             tile = self.board[row]
@@ -311,7 +378,6 @@ class Game_World(State):
 
     def draw_players(self, screen):
         for player in self.active_players:
-
             tile_center = self.find_tile_by_name(player.tile).get_center()
             if player == self.turnhandler.current_player:
                 pygame.draw.circle(screen, (255, 255, 255), tile_center, 10)
@@ -331,10 +397,8 @@ class Game_World(State):
                     self.actions["note"] = True   
             if event.type == pygame.MOUSEBUTTONDOWN:
                 x, y = event.pos  # Get the x, y position of the click
-                if self.find_tile_at_position(x,y) in self.board:
+                if self.find_tile_at_position(x,y) in self.board and self.cardv == False:
                     print(self.find_tile_at_position(x,y).name)
-                if self.dice_btn.check_click(x,y):
-                    self.dice_btn.clicked = not self.dice_btn.clicked
                 if self.cards_btn.check_click(x,y):
                     self.cards_btn.clicked = not self.cards_btn.clicked
                 if self.suspect_btn.check_click(x,y):
@@ -342,7 +406,9 @@ class Game_World(State):
                 if self.accuse_btn.check_click(x,y):
                     self.accuse_btn.clicked = not self.accuse_btn.clicked
                 if self.endturn_btn.check_click(x,y):
-                    current
+                    self.endturn_btn.clicked = not self.endturn_btn.clicked
+                if self.back_btn.check_click(x,y):
+                    self.back_btn.clicked = not self.back_btn.clicked
 
 
 
