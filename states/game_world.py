@@ -56,8 +56,8 @@ class Game_World(State):
         print(self.turnhandler.current_player)
 
         # Buttons for player interaction
-        self.suspect_btn = Button(self.game, "Suspect", 150, 800, 100, 40, True)
-        self.accuse_btn = Button(self.game, "Accuse", 275, 800, 100, 40, True)
+        self.suspect_btn = Button(self.game, "Suspect", 25, 850, 150, 40, True)
+        self.accuse_btn = Button(self.game, "Accuse", 200, 850, 150, 40, True)
         self.endturn_btn = Button(self.game, "End Turn", 25, 900, 150, 40, True)
         self.cards_btn = Button(self.game, "Show Cards", 200, 900, 150, 40, True)
         self.back_btn = Button(self.game, "Back", 300, 600, 150, 40, True)
@@ -161,8 +161,8 @@ class Game_World(State):
         self.suspect_btn.draw()
         self.accuse_btn.draw()
         self.endturn_btn.draw()
-        self.game.draw_text(screen, ("Its " +str(self.turnhandler.current_player.name) + "´s turn!") , "black", 400, 800)
-        self.game.draw_text(screen, ("You rolled a " + str(self.dice_result)) , "black", 400, 850)
+        self.game.draw_text(screen, ("Its " +str(self.turnhandler.current_player.name) + "´s turn!") , "black", 200, 775)
+        self.game.draw_text(screen, ("You rolled a " + str(self.dice_result)) , "black", 200, 825)
         self.draw_player_hand(self.turnhandler.current_player, (0, 0), screen)
         self.draw_possible_moves(self.dice_result, screen)
         self.draw_players(screen)

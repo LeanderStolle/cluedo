@@ -78,9 +78,11 @@ class Suspicion(State):
             popup_width, popup_height = 350, 450
             border_size = 5  # Border size in pixels
 
+
             # Calculate the position and size of the popup
             popup_rect = pygame.Rect((650 - popup_width) // 2, (960 - popup_height) // 2, popup_width,
                                      popup_height)
+
 
             # Draw background
             pygame.draw.rect(screen, (200, 200, 200), popup_rect)
