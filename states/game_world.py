@@ -119,6 +119,7 @@ class Game_World(State):
                 continue
             if tile.type == "Wall":
                 continue
+
             pygame.draw.rect(screen, border_color, (tile.x, tile.y, tile.width, border_size))
             # Draw bottom border
             pygame.draw.rect(screen, border_color,(tile.x, tile.y + tile.height - border_size, tile.width, border_size))
@@ -156,7 +157,6 @@ class Game_World(State):
         screen.fill((255,255,255))
         self.game_board.draw_board(screen)
         self.draw_players(screen)
-        self.draw_player_hand(self.turnhandler.current_player, (0, 0), screen)
         self.cards_btn.draw()
         self.suspect_btn.draw()
         self.accuse_btn.draw()
@@ -166,6 +166,7 @@ class Game_World(State):
         self.draw_player_hand(self.turnhandler.current_player, (0, 0), screen)
         self.draw_possible_moves(self.dice_result, screen)
         self.draw_players(screen)
+        self.draw_player_hand(self.turnhandler.current_player, (0, 0), screen)
         pygame.display.flip()  # Update the display
         
 
