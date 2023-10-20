@@ -7,20 +7,26 @@
 # --> accusation state
 # --> note state
 import os
+import sys
+
 from button import *
 from states.state import State
 from tile import *
 from colors import *
 import pygame
+from board import *
+from tile import *
+from turn_handler import *
 
 
 class Suspicion(State):
-    def __init__(self, game):
+    def __init__(self, game,active_players, current_player):
         State.__init__(self, game)
 
         #Definiere Actions
         self.actions = {"pause": False, "note":False}
-
+        self.active_players = active_players
+        self.current_player = current_player
         self.img_player_red = pygame.image.load(os.path.join(self.game.assets_dir, "sprites", "gloria_red_outline.png"))
         self.img_player_yellow = pygame.image.load(os.path.join(self.game.assets_dir, "sprites", "gatow_red_outline.png"))
         self.img_player_pink = pygame.image.load(os.path.join(self.game.assets_dir, "sprites", "orchidee_red_outline.png"))
@@ -41,11 +47,63 @@ class Suspicion(State):
                        Tile('Mrs. Peacock', 'Character', 225, 640, 200, 200, (TileCharacterColor.get_color())),
                        Tile('Professor Plum', 'Character', 435, 640, 200, 200, (TileCharacterColor.get_color()))]
 
+        self.Suspect_btn = Button(self.game, "Suspect", 250, 850, 150, 40, True)
+        self.Back_btn = Button(self.game, "Back", 250, 900, 150, 40, True)
+        self.Back_btn_Popup = Button(self.game, "Back", 250, 600, 150, 40, True)
+
+        self.suspicionv = False
         self.Weapon_count = 0
         self.Character_count = 0
+        self.board = Board()
+        self.suspicion = [self.board.find_tile_by_name(self.current_player.tile).name]
 
-        self.Suspect_btn = Button(self.game, "Suspect", self.game.SCREEN_WIDTH/2 -75, 850, 150, 40, True)
+    def show_suspicion_player_cards(self):
+        view = []
+        for player in self.active_players:
+            if player.name == self.current_player.name:
+                continue
+            for card in player.card_list:
+                if card.name in self.suspicion:
+                    view.append(card.name)
+                    view.append(player.name)
+                    return view
+                    break
 
+        return None
+
+    def show_popup(self,screen):
+        if self.suspicionv==True:
+            suspicion_list = self.show_suspicion_player_cards()
+            font = pygame.font.Font(None, 24)
+            popup_width, popup_height = 350, 450
+            border_size = 5  # Border size in pixels
+
+
+            # Calculate the position and size of the popup
+            popup_rect = pygame.Rect((650 - popup_width) // 2, (960 - popup_height) // 2, popup_width,
+                                     popup_height)
+
+
+            # Draw background
+            pygame.draw.rect(screen, (200, 200, 200), popup_rect)
+
+            # Draw border around the background
+            pygame.draw.rect(screen, (0, 0, 0), popup_rect, border_size)
+            self.Back_btn_Popup.draw()
+
+            if suspicion_list != None:
+                text_surface = font.render("Spieler " + suspicion_list[1] +"zeigt dir Karte" +suspicion_list[0], True, (0, 0, 0))
+                text_rect = text_surface.get_rect(center=popup_rect.center)
+                screen.blit(text_surface, text_rect)
+
+            else:
+                text_surface = font.render("Kein Spieler hat eine Karte die deiner Vermutung entspricht ;)", True, (0, 0, 0))
+                text_rect = text_surface.get_rect(center=popup_rect.center)
+                screen.blit(text_surface, text_rect)
+
+            pygame.display.flip()
+
+            # Wait for a key press or close event
     def draw_list(self, screen):
             for row in range(len(self.list)):
                 tile = self.list[row]
@@ -77,6 +135,19 @@ class Suspicion(State):
 
     def update(self, delta_time, actions):
         if self.Suspect_btn.clicked:
+            for tile in self.list:
+                if tile.clicked:
+                    self.suspicion.append(tile.name)
+            self.show_suspicion_player_cards()
+            self.suspicionv = True
+            self.Suspect_btn.clicked = False
+        if self.Back_btn.clicked:
+            self.game.state_stack.pop()
+            self.Back_btn.clicked = False
+        if self.Back_btn_Popup.clicked:
+            self.suspicionv = False
+            self.Back_btn_Popup = False
+            self.current_player.suspect = False
             self.game.state_stack.pop()
 
 
@@ -84,6 +155,8 @@ class Suspicion(State):
         screen.fill((255, 255, 255))  # Clear the screen
         self.draw_list(screen)
         self.Suspect_btn.draw()
+        self.Back_btn.draw()
+        self.show_popup(screen)
         pygame.display.flip()  # Update the display
 
     def get_events(self):
@@ -106,5 +179,9 @@ class Suspicion(State):
                         self.Character_count = 1
                 if self.Suspect_btn.check_click(x,y):
                     self.Suspect_btn.clicked = not self.Suspect_btn.clicked
+                if self.Back_btn.check_click(x,y):
+                    self.Back_btn.clicked = not self.Back_btn.clicked
+                if self.Back_btn_Popup.check_click(x,y):
+                    self.Back_btn_Popup.clicked = not self.Back_btn_Popup.clicked
 
 

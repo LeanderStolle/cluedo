@@ -31,7 +31,7 @@ weapon_cardstack.shuffle_cards()
 character_cardstack.shuffle_cards()
 room_cardstack.shuffle_cards()
 
-Case_File = [weapon_cardstack.draw_card(), character_cardstack.draw_card(), room_cardstack.draw_card()]
+Case_File = [room_cardstack.draw_card(),weapon_cardstack.draw_card(), character_cardstack.draw_card()]
 
 combined_cardstack = weapon_cardstack + (room_cardstack + character_cardstack)
 
