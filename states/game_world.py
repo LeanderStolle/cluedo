@@ -6,6 +6,7 @@ from states.dice import *
 from board import *
 from states.suspicion import Suspicion
 from states.accusation import Accusation
+import math
 
 class Game_World(State):
     def __init__(self, game, selected_players):
@@ -114,7 +115,6 @@ class Game_World(State):
         for player in self.active_players:
             playerpos.append(self.game_board.find_tile_by_name(player.tile))
         for tile in possible_moves:
-            print(tile)
             if tile in playerpos and tile.type == "Room":
                 continue
             if tile.type == "Wall":
@@ -169,16 +169,6 @@ class Game_World(State):
         pygame.display.flip()  # Update the display
         
 
-    def handle_click(self, x, y, board):
-            for tile in board:
-                if tile.contains_point(x, y):
-                    print("Dieses Tile habe ich geklicked", tile.name)
-                    return tile
-                if tile.contains_point(x, y) and tile.type == "wall":
-                    print("Hier kann man nicht hinlaufen", tile.name)
-                    return tile
-            return None
-
     def draw_player_hand(self,player, start_position,screen):
         if self.cardv:
             screen.fill((255,255,255))
@@ -196,11 +186,29 @@ class Game_World(State):
     def draw_players(self, screen):
         for player in self.active_players:
             tile_center = self.game_board.find_tile_by_name(player.tile).get_center()
+            players_on_tile = [p for p in self.active_players if p.tile == player.tile]
+
+            # Calculate the total number of players on the tile
+            total_players = len(players_on_tile)
+
+            # Calculate the index of the current player on the tile
+            player_index = players_on_tile.index(player)
+
+            # Calculate the angle to position the player's circle evenly around the tile
+            angle = 2 * math.pi * (player_index / total_players)
+
+            # Calculate the offset from the center based on the angle
+            offset_x = int(10 * math.cos(angle))
+            offset_y = int(10 * math.sin(angle))
+
+            # Apply the offset to the circle's center
+            player_center = (tile_center[0] + offset_x, tile_center[1] + offset_y)
+
             if player == self.turnhandler.current_player:
-                pygame.draw.circle(screen, (255, 255, 255), tile_center, 10)
-                pygame.draw.circle(screen, player.rgb,tile_center,6)
+                pygame.draw.circle(screen, (255, 255, 255), player_center, 10)
+                pygame.draw.circle(screen, player.rgb, player_center, 6)
             else:
-                pygame.draw.circle(screen, player.rgb, tile_center, 6)
+                pygame.draw.circle(screen, player.rgb, player_center, 6)
 
     def player_move(self, given_tile):
         playerpos = []
@@ -243,13 +251,7 @@ class Game_World(State):
 
 
 
-#TO-DO:
-#  2. Waffen platzieren
-#  4. übrige Karten auf Stapel aufteilen ( Personen, Waffen, Räume), dann mischen und auch verdeckt platzieren --> Jan
-#  5. von jedem Stapel (Personen, Waffe, Räume) muss eine Karte in die Fallakte (Lösung) --> Jan
-#  6. Mischen der übrigen Karten und verteilen an Spieler (nicht schlimm wenn jemand mehr Karten hat als der andere) --> Jan
-#  7. Spielstart --> möglichkeit seine Karten anzuschauen (im eigenen Spielzug)
-#     roll dice --> passiert am anfang des zuges von jedem Player
+
 
 
 # Notwendige Buttons: --> Leander
