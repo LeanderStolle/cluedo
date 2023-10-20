@@ -265,6 +265,7 @@ class Game_World(State):
             pass #  accuse logic
         if self.endturn_btn.clicked:
             self.turnhandler.end_turn() # Endturn logic
+            self.endturn_btn.clicked = False
         self.game.reset_keys()
 
     def render(self, screen):
