@@ -35,6 +35,7 @@ class PlayerFactory():
             return Player("Prof. Bloom", PlayerColor.PURPLE, colors.Purple.get_color(), "Floor106",6)
 
 
+
 class Player:
     def __init__(self, name: str, color: PlayerColor,rgb, tile,turn_number):
         self.name = name
@@ -44,6 +45,8 @@ class Player:
         self.card_list = []
         self.turn_number = turn_number
         self.move = True
+        self.suspect = True
+        self.playing = True
 
     def add_card(self, card):
         self.card_list.append(card)

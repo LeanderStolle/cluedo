@@ -5,6 +5,7 @@ from card_stack import *
 from states.dice import *
 from board import *
 from states.suspicion import Suspicion
+from states.accusation import Accusation
 
 class Game_World(State):
     def __init__(self, game, selected_players):
@@ -109,7 +110,13 @@ class Game_World(State):
         possible_moves = self.find_possible_moves(self.game_board.find_tile_by_name(self.turnhandler.current_player.tile), steps)
         border_color = (255,160,122)
         border_size = 1
+        playerpos = []
+        for player in self.active_players:
+            playerpos.append(self.game_board.find_tile_by_name(player.tile))
         for tile in possible_moves:
+            print(tile)
+            if tile in playerpos and tile.type == "Room":
+                continue
             if tile.type == "Wall":
                 continue
             pygame.draw.rect(screen, border_color, (tile.x, tile.y, tile.width, border_size))
@@ -129,15 +136,18 @@ class Game_World(State):
             self.cardv = False
             self.back_btn.clicked = False
         if self.suspect_btn.clicked:
-            new_state = Suspicion(self.game)
+            new_state = Suspicion(self.game,self.active_players,self.turnhandler.current_player)
             new_state.enter_state()
             self.suspect_btn.clicked = False
         if self.accuse_btn.clicked:
-            pass #  accuse logic
+            new_state = Accusation(self.game,self.active_players,self.turnhandler.current_player)
+            new_state.enter_state()
+            self.accuse_btn.clicked = False
         if self.endturn_btn.clicked:
             self.dice.roll()
             self.dice_result = self.dice.get_sum()
             self.turnhandler.current_player.move = True
+            self.turnhandler.current_player.suspect = True
             self.turnhandler.end_turn() # Endturn logic
             self.endturn_btn.clicked = False
         self.game.reset_keys()
@@ -193,18 +203,16 @@ class Game_World(State):
                 pygame.draw.circle(screen, player.rgb, tile_center, 6)
 
     def player_move(self, given_tile):
+        playerpos = []
+        for player in self.active_players:
+            if self.game_board.find_tile_by_name(player.tile) == given_tile and given_tile.type != "Room":
+                return
+            playerpos.append(self.game_board.find_tile_by_name(player.tile))
         if given_tile in self.find_possible_moves(self.game_board.find_tile_by_name(self.turnhandler.current_player.tile), self.dice_result) and self.turnhandler.current_player.move:
             self.turnhandler.current_player.tile = given_tile.name
             self.turnhandler.current_player.move = False
 
-    def handle_click2(self, x, y, possible_moves):
-            for tile in possible_moves:
-                if tile.contains_point(x, y):
-                    return True
-                if tile.contains_point(x, y) and tile.type == "wall":
-                    print("Hier kann man nicht hinlaufen", tile.name)
-                    return tile
-            return None
+
 
     def get_events(self):
         for event in pygame.event.get():
@@ -222,7 +230,7 @@ class Game_World(State):
                 if self.cards_btn.check_click(x,y):
                     self.cards_btn.clicked = not self.cards_btn.clicked
                 if self.suspect_btn.check_click(x,y):
-                    if self.game_board.find_tile_by_name(self.turnhandler.current_player.tile).type != "Room":
+                    if self.game_board.find_tile_by_name(self.turnhandler.current_player.tile).type != "Room" or self.turnhandler.current_player.suspect == False:
                         print("You are not in a room")
                     elif self.game_board.find_tile_by_name(self.turnhandler.current_player.tile).type == "Room":
                         self.suspect_btn.clicked = not self.suspect_btn.clicked

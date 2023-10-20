@@ -8,5 +8,4 @@ class cardstate(State):
 
 
 
-    def drawCards(self):
-        card in player
+
