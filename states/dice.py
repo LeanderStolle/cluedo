@@ -21,6 +21,9 @@ class Dice(State):
         self.dice1 = random.randint(1, 6)
         self.dice2 = random.randint(1, 6)
 
+    def get_sum(self):
+        return self.dice1 + self.dice2
+
     def get_result(self):
         return self.dice1, self.dice2
     

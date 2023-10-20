@@ -7,6 +7,7 @@ from colors import *
 from tile import *
 from states.game_world import *
 from card import *
+from board import *
 class PlayerColor(Enum):
     RED = 1
     YELLOW = 2
@@ -42,6 +43,7 @@ class Player:
         self.tile = tile
         self.card_list = []
         self.turn_number = turn_number
+        self.move = True
 
     def add_card(self, card):
         self.card_list.append(card)

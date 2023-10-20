@@ -9,6 +9,7 @@ class Tile:
         self.width = width
         self.height = height
         self.color = color
+        self.clicked = False
 
 
 

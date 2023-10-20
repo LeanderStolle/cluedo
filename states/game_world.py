@@ -1,16 +1,10 @@
-import pygame, os
-
-from states.state import State
-from states.pause_menu import PauseMenu
-from states.note import Note
-from tile import Tile
-from colors import *
 from player import *
 from turn_handler import *
 from button import Button
 from card_stack import *
 from states.dice import *
 from board import *
+from states.suspicion import Suspicion
 
 class Game_World(State):
     def __init__(self, game, selected_players):
@@ -22,7 +16,7 @@ class Game_World(State):
         self.game_board = Board()
         self.dice = Dice()
         self.dice.roll()
-        self.dice_result = self.dice.get_result()
+        self.dice_result = self.dice.get_sum()
         # Player related shit
         self.selected_players = selected_players
         
@@ -73,32 +67,25 @@ class Game_World(State):
 
         self.cardv = False
 
-
     def get_neighbours(self, given_tile):
         neighbours = []
         for tile in self.game_board.board:
             if tile.type == 'Wall' or tile.name == given_tile.name:
-                continue  #Überspringe wall tile und das übergebene tile
+                continue  # Skip wall tiles and the given tile
 
-            # überprüfen ob tiles horizontal  benachbart sind
+            # Check if tiles are horizontally adjacent
             if (given_tile.y < tile.y + tile.height) and (tile.y < given_tile.y + given_tile.height):
-                # 5px abstand zwischen Floor und Room tiles
                 gap = 5 if (tile.type == 'Room' or given_tile.type == 'Room') else 0
-                # Wenn der horizontale Abstand zwischen den Mittelpunkten zweier Tiles
-                # kleiner oder gleich der Summe der Hälfte ihrer Breiten und der Lücke ist,
-                # werden sie als benachbart betrachtet.
                 if abs((tile.x + tile.width / 2) - (given_tile.x + given_tile.width / 2)) <= (
                         tile.width + given_tile.width) / 2 + gap:
                     neighbours.append(tile)
-                    continue
 
-
+            # Check if tiles are vertically adjacent
             if (given_tile.x < tile.x + tile.width) and (tile.x < given_tile.x + given_tile.width):
                 gap = 5 if (tile.type == 'Room' or given_tile.type == 'Room') else 0
                 if abs((tile.y + tile.height / 2) - (given_tile.y + given_tile.height / 2)) <= (
                         tile.height + given_tile.height) / 2 + gap:
                     neighbours.append(tile)
-
         return neighbours
 
     def find_possible_moves(self, tile, steps):
@@ -109,12 +96,29 @@ class Game_World(State):
             for t in current_tiles:
                 neighbours = self.get_neighbours(t)
                 for neighbour in neighbours:
-                    if neighbour not in possible_moves:
+                    if neighbour.type == "Room":
+                        # Stop searching if a room is reached
+                        possible_moves.add(neighbour)
+                    elif neighbour not in possible_moves and neighbour.type != "Wall":
                         possible_moves.add(neighbour)
                         next_tiles.append(neighbour)
             current_tiles = next_tiles
         return list(possible_moves)
 
+    def draw_possible_moves(self,steps,screen):
+        possible_moves = self.find_possible_moves(self.game_board.find_tile_by_name(self.turnhandler.current_player.tile), steps)
+        border_color = (255,160,122)
+        border_size = 1
+        for tile in possible_moves:
+            if tile.type == "Wall":
+                continue
+            pygame.draw.rect(screen, border_color, (tile.x, tile.y, tile.width, border_size))
+            # Draw bottom border
+            pygame.draw.rect(screen, border_color,(tile.x, tile.y + tile.height - border_size, tile.width, border_size))
+            # Draw left border
+            pygame.draw.rect(screen, border_color, (tile.x, tile.y, border_size, tile.height))
+            # Draw right border
+            pygame.draw.rect(screen, border_color,(tile.x + tile.width - border_size, tile.y, border_size, tile.height))
 
 
     def update(self, delta_time, actions):
@@ -125,12 +129,15 @@ class Game_World(State):
             self.cardv = False
             self.back_btn.clicked = False
         if self.suspect_btn.clicked:
-            pass # suspect logic
+            new_state = Suspicion(self.game)
+            new_state.enter_state()
+            self.suspect_btn.clicked = False
         if self.accuse_btn.clicked:
             pass #  accuse logic
         if self.endturn_btn.clicked:
             self.dice.roll()
-            self.dice_result = self.dice.get_result()
+            self.dice_result = self.dice.get_sum()
+            self.turnhandler.current_player.move = True
             self.turnhandler.end_turn() # Endturn logic
             self.endturn_btn.clicked = False
         self.game.reset_keys()
@@ -147,6 +154,8 @@ class Game_World(State):
         self.game.draw_text(screen, ("Its " +str(self.turnhandler.current_player.name) + "´s turn!") , "black", 400, 800)
         self.game.draw_text(screen, ("You rolled a " + str(self.dice_result)) , "black", 400, 850)
         self.draw_player_hand(self.turnhandler.current_player, (0, 0), screen)
+        self.draw_possible_moves(self.dice_result, screen)
+        self.draw_players(screen)
         pygame.display.flip()  # Update the display
         
 
@@ -167,10 +176,10 @@ class Game_World(State):
             x, y = start_position
             for card in player.card_list:
                 card.draw_card(card, (x, y),screen)
+                x += 160  # Adjust this spacing based on your preferenc
                 if x > 450:
                     y += 200
                     x = 0
-                x += 160  # Adjust this spacing based on your preferenc
 
 
 
@@ -183,6 +192,19 @@ class Game_World(State):
             else:
                 pygame.draw.circle(screen, player.rgb, tile_center, 6)
 
+    def player_move(self, given_tile):
+        if given_tile in self.find_possible_moves(self.game_board.find_tile_by_name(self.turnhandler.current_player.tile), self.dice_result) and self.turnhandler.current_player.move:
+            self.turnhandler.current_player.tile = given_tile.name
+            self.turnhandler.current_player.move = False
+
+    def handle_click2(self, x, y, possible_moves):
+            for tile in possible_moves:
+                if tile.contains_point(x, y):
+                    return True
+                if tile.contains_point(x, y) and tile.type == "wall":
+                    print("Hier kann man nicht hinlaufen", tile.name)
+                    return tile
+            return None
 
     def get_events(self):
         for event in pygame.event.get():
@@ -196,11 +218,14 @@ class Game_World(State):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 x, y = event.pos  # Get the x, y position of the click
                 if self.game_board.find_tile_at_position(x,y) in self.game_board.board and self.cardv == False:
-                    print(self.game_board.find_tile_at_position(x,y).name)
+                    self.player_move(self.game_board.find_tile_at_position(x,y))
                 if self.cards_btn.check_click(x,y):
                     self.cards_btn.clicked = not self.cards_btn.clicked
                 if self.suspect_btn.check_click(x,y):
-                    self.suspect_btn.clicked = not self.suspect_btn.clicked
+                    if self.game_board.find_tile_by_name(self.turnhandler.current_player.tile).type != "Room":
+                        print("You are not in a room")
+                    elif self.game_board.find_tile_by_name(self.turnhandler.current_player.tile).type == "Room":
+                        self.suspect_btn.clicked = not self.suspect_btn.clicked
                 if self.accuse_btn.check_click(x,y):
                     self.accuse_btn.clicked = not self.accuse_btn.clicked
                 if self.endturn_btn.check_click(x,y):

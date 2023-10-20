@@ -11,6 +11,8 @@ class Colors():
 TileFloorColor = Colors(192, 192, 192)
 TileWallColor = Colors(0, 0, 0)
 TileRoomColor = Colors(255, 248, 220)
+TileWeaponColor = Colors(125, 125, 125)
+TileCharacterColor = Colors(0, 255, 0)
 BorderColors = Colors(128, 128, 128)
 Yellow = Colors(255,255,0)
 Pink = Colors(255, 192, 203)
