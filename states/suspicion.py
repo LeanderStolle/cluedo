@@ -44,7 +44,7 @@ class Suspicion(State):
         self.Weapon_count = 0
         self.Character_count = 0
 
-        self.Suspect_btn = Button(self.game, "Suspect", 0, 700, 150, 40, True)
+        self.Suspect_btn = Button(self.game, "Suspect", self.game.SCREEN_WIDTH/2 -75, 850, 150, 40, True)
 
     def draw_list(self, screen):
             for row in range(len(self.list)):

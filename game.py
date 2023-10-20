@@ -34,9 +34,8 @@ class Game():
 
     def game_loop(self):
         while self.playing:
-            self.timer.tick(self.fps)
 
-            self.get_dt()
+            self.timer.tick(self.fps)
             self.get_events()
             self.update()
             self.render()
