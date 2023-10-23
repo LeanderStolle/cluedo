@@ -30,7 +30,7 @@ class Title(State):
         self.game.reset_keys()
 
     def render(self, screen):
-        screen.fill((255,255,255))
+        screen.fill((24, 26, 27))
         screen.blit(self.logo_scaled, self.logo_rect)
         self.play_btn.draw()
         

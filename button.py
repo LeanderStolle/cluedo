@@ -12,7 +12,7 @@ class Button:
         self.enabled = enabled
         self.width = width
         self.height = height
-        self.button_text = self.game.font.render(self.text, True, "black")
+        self.button_text = self.game.font.render(self.text, True, "white")
         self.button_rect = pygame.rect.Rect((self.x_pos,self.y_pos), (self.width,self.height))
         
         self.clicked = False
@@ -22,7 +22,7 @@ class Button:
 
 
     def draw(self):
-        pygame.draw.rect(self.game.screen, "light gray", self.button_rect, 0, 5)
+        pygame.draw.rect(self.game.screen, ((44, 44, 44)), self.button_rect, 0, 5)
         pygame.draw.rect(self.game.screen, "black", self.button_rect, 2, 5)
         self.game.screen.blit(self.button_text, self.button_text.get_rect(center = self.button_rect.center))
 

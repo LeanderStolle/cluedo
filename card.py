@@ -9,7 +9,7 @@ class Card:
 
     def draw_card(self,card, position,screen):
         x, y = position
-        card_rect = pygame.Rect(x, y, 150, 150)  # Rectangle for the card
+        card_rect = pygame.Rect(x, y, 200, 250)  # Rectangle for the card
 
         # Set colors based on card type
         if card.card_type == "Room":

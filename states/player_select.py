@@ -27,15 +27,15 @@ class PlayerSelect(State):
         self.img_player_purple_clicked = pygame.image.load(os.path.join(self.game.assets_dir, "sprites", "bloom_green_outline.png"))
 
         # Create all buttons
-        self.player_red_btn = ImgButton(self.game, 100, 100, self.img_player_red, self.img_player_red_clicked, 1, True)
-        self.player_yellow_btn = ImgButton(self.game, 300, 100, self.img_player_yellow, self.img_player_yellow_clicked, 1, True)
-        self.player_pink_btn = ImgButton(self.game, 500, 100, self.img_player_pink, self.img_player_pink_clicked, 1, True) 
-        self.player_green_btn = ImgButton(self.game, 100, 300, self.img_player_green, self.img_player_green_clicked, 1, True)
-        self.player_blue_btn = ImgButton(self.game, 300, 300, self.img_player_blue, self.img_player_blue_clicked, 1, True)
-        self.player_purple_btn = ImgButton(self.game, 500, 300, self.img_player_purple, self.img_player_purple_clicked, 1, True)
+        self.player_red_btn = ImgButton(self.game, self.game.SCREEN_WIDTH * 0.25 -51, 100, self.img_player_red, self.img_player_red_clicked, 1, True)
+        self.player_yellow_btn = ImgButton(self.game, self.game.SCREEN_WIDTH * 0.5 -51, 100, self.img_player_yellow, self.img_player_yellow_clicked, 1, True)
+        self.player_pink_btn = ImgButton(self.game, self.game.SCREEN_WIDTH * 0.75 -51, 100, self.img_player_pink, self.img_player_pink_clicked, 1, True) 
+        self.player_green_btn = ImgButton(self.game, self.game.SCREEN_WIDTH * 0.25 -51, 300, self.img_player_green, self.img_player_green_clicked, 1, True)
+        self.player_blue_btn = ImgButton(self.game, self.game.SCREEN_WIDTH * 0.5 -51, 300, self.img_player_blue, self.img_player_blue_clicked, 1, True)
+        self.player_purple_btn = ImgButton(self.game, self.game.SCREEN_WIDTH * 0.75 -51, 300, self.img_player_purple, self.img_player_purple_clicked, 1, True)
 
 
-        self.start_btn = Button(self.game, "Start the Game!", self.game.SCREEN_WIDTH/2 - 75 , self.game.SCREEN_HEIGHT/2 + 25, 175, 40, True)
+        self.start_btn = Button(self.game, "Start the Game!", self.game.SCREEN_WIDTH/2 - 90 , self.game.SCREEN_HEIGHT/2 + 25, 180, 40, True)
 
 
         # Playerstuff
@@ -107,8 +107,8 @@ class PlayerSelect(State):
         self.game.reset_keys()
 
     def render(self, screen):
-        screen.fill((255, 255, 255))  # Clear the screen
-        self.game.draw_title_text(screen, "Choose your Character!", "black", 325, 50)
+        screen.fill((24, 26, 27))  # Clear the screen
+        self.game.draw_title_text(screen, "Choose your Character!", "white", 325, 50)
         self.player_red_btn.draw()
         self.player_yellow_btn.draw()
         self.player_pink_btn.draw()

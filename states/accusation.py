@@ -152,7 +152,7 @@ class Accusation(State):
 
 
     def render(self, screen):
-        screen.fill((255, 255, 255))  # Clear the screen
+        screen.fill((24, 26, 27))  # Clear the screen
         self.draw_list(screen)
         self.Accuse_btn.draw()
         self.Back_btn.draw()

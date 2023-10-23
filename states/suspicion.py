@@ -75,7 +75,7 @@ class Suspicion(State):
         if self.suspicionv==True:
             suspicion_list = self.show_suspicion_player_cards()
             font = pygame.font.Font(None, 24)
-            popup_width, popup_height = 350, 450
+            popup_width, popup_height = 550, 450
             border_size = 5  # Border size in pixels
 
 
@@ -92,7 +92,7 @@ class Suspicion(State):
             self.Back_btn_Popup.draw()
 
             if suspicion_list != None:
-                text_surface = font.render("Spieler " + suspicion_list[1] +"zeigt dir Karte" +suspicion_list[0], True, (0, 0, 0))
+                text_surface = font.render("Spieler " + suspicion_list[1] +" zeigt dir Karte " +suspicion_list[0], True, (0, 0, 0))
                 text_rect = text_surface.get_rect(center=popup_rect.center)
                 screen.blit(text_surface, text_rect)
 
@@ -152,7 +152,7 @@ class Suspicion(State):
 
 
     def render(self, screen):
-        screen.fill((255, 255, 255))  # Clear the screen
+        screen.fill((24, 26, 27))  # Clear the screen
         self.draw_list(screen)
         self.Suspect_btn.draw()
         self.Back_btn.draw()

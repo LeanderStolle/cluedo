@@ -51,17 +51,18 @@ class Game_World(State):
                 for card in player.card_list:
                     print(card.name)
         print_cards_of_each_player()
+
         # Turnhandler
         self.turnhandler = TurnHandler(self.active_players)
 
         print(self.turnhandler.current_player)
 
         # Buttons for player interaction
-        self.suspect_btn = Button(self.game, "Suspect", 25, 850, 150, 40, True)
-        self.accuse_btn = Button(self.game, "Accuse", 200, 850, 150, 40, True)
-        self.endturn_btn = Button(self.game, "End Turn", 25, 900, 150, 40, True)
-        self.cards_btn = Button(self.game, "Show Cards", 200, 900, 150, 40, True)
-        self.back_btn = Button(self.game, "Back", 300, 600, 150, 40, True)
+        self.suspect_btn = Button(self.game, "Suspect", self.game.SCREEN_WIDTH * 0.25 -75, 850, 150, 40, True)
+        self.accuse_btn = Button(self.game, "Accuse", self.game.SCREEN_WIDTH * 0.75 -75, 850, 150, 40, True)
+        self.endturn_btn = Button(self.game, "End Turn", self.game.SCREEN_WIDTH * 0.75 -75, 900, 150, 40, True)
+        self.cards_btn = Button(self.game, "Show Cards", self.game.SCREEN_WIDTH * 0.25 -75, 900, 150, 40, True)
+        self.back_btn = Button(self.game, "Back", self.game.SCREEN_WIDTH/2 - 75 , 900, 150, 40, True)
 
         # Text for player interaction
         self.active_player_text = "test"
@@ -149,38 +150,38 @@ class Game_World(State):
             self.dice_result = self.dice.get_sum()
             self.turnhandler.current_player.move = True
             self.turnhandler.current_player.suspect = True
-            self.turnhandler.end_turn() # Endturn logic
+            self.turnhandler.end_turn() 
             self.endturn_btn.clicked = False
         self.game.reset_keys()
 
     def render(self, screen):
-        screen.fill((255,255,255))
+        screen.fill((24, 26, 27))
         self.game_board.draw_board(screen)
         self.draw_players(screen)
         self.cards_btn.draw()
         self.suspect_btn.draw()
         self.accuse_btn.draw()
         self.endturn_btn.draw()
-        self.game.draw_text(screen, ("Its " +str(self.turnhandler.current_player.name) + "´s turn!") , "black", 200, 775)
-        self.game.draw_text(screen, ("You rolled a " + str(self.dice_result)) , "black", 200, 825)
-        self.draw_player_hand(self.turnhandler.current_player, (0, 0), screen)
+        self.game.draw_text(screen, ("Its " +str(self.turnhandler.current_player.name) + "´s turn!") , "white", self.game.SCREEN_WIDTH/2, 775)
+        self.game.draw_text(screen, ("You rolled a " + str(self.dice_result)) , "white", self.game.SCREEN_WIDTH/2, 825)
+
         self.draw_possible_moves(self.dice_result, screen)
         self.draw_players(screen)
-        self.draw_player_hand(self.turnhandler.current_player, (0, 0), screen)
+        self.draw_player_hand(self.turnhandler.current_player, (15, 15), screen)
         pygame.display.flip()  # Update the display
         
 
     def draw_player_hand(self,player, start_position,screen):
         if self.cardv:
-            screen.fill((255,255,255))
+            screen.fill((24, 26, 27))
             self.back_btn.draw()
             x, y = start_position
             for card in player.card_list:
                 card.draw_card(card, (x, y),screen)
-                x += 160  # Adjust this spacing based on your preferenc
+                x += 210  # Adjusts the spacing between cards
                 if x > 450:
-                    y += 200
-                    x = 0
+                    y += 260
+                    x = 15
 
 
 
@@ -206,7 +207,7 @@ class Game_World(State):
             player_center = (tile_center[0] + offset_x, tile_center[1] + offset_y)
 
             if player == self.turnhandler.current_player:
-                pygame.draw.circle(screen, (255, 255, 255), player_center, 10)
+                pygame.draw.circle(screen, (24, 26, 27), player_center, 10)
                 pygame.draw.circle(screen, player.rgb, player_center, 6)
             else:
                 pygame.draw.circle(screen, player.rgb, player_center, 6)
@@ -249,22 +250,3 @@ class Game_World(State):
                     self.endturn_btn.clicked = not self.endturn_btn.clicked
                 if self.back_btn.check_click(x,y):
                     self.back_btn.clicked = not self.back_btn.clicked
-
-
-
-
-
-
-# Notwendige Buttons: --> Leander
-# - show cards (bilder?)
-# - end turn --> prio
-# - note???
-# - suspect button
-# - accuse button
-#  
-# Allgemeines:
-# - maybe UI mit aktivem Spielernamen, Buttons fürs Würfel, anschuldigen, karten anschauen, notes taken
-#
-# actions für jeden State definieren und in game.py bei update die actions für jeden State mitgeben
-
-#macht keinen sinn board in gameworld klasse zu speichern da man immer ein objekt erstellen muss um es zu referenzieren
