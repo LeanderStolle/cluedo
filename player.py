@@ -5,7 +5,7 @@ from enum import Enum
 import colors
 from colors import *
 from tile import *
-from states.game_world import *
+from states.game_handler import *
 from card import *
 from board import *
 class PlayerColor(Enum):

@@ -8,7 +8,7 @@ from states.suspicion import Suspicion
 from states.accusation import Accusation
 import math
 
-class Game_World(State):
+class Game_Handler(State):
     def __init__(self, game, selected_players):
         State.__init__(self, game)
 

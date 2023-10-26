@@ -2,7 +2,7 @@ import pygame, os
 
 from button import *
 from states.state import State
-from states.game_world import Game_World
+from states.game_handler import Game_Handler
 from player import PlayerFactory, PlayerColor
 
 
@@ -99,7 +99,7 @@ class PlayerSelect(State):
             else:
                 print( "\n" and self.selected_players)
                 print(len(self.selected_players))
-                new_state = Game_World(self.game, self.selected_players)
+                new_state = Game_Handler(self.game, self.selected_players)
                 new_state.enter_state()
         
         

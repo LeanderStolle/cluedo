@@ -1,4 +1,5 @@
 import os, time, pygame
+from pathlib import Path
 
 from states.title import Title
 
