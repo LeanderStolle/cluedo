@@ -206,6 +206,16 @@ class Game_World(State):
             # Apply the offset to the circle's center
             player_center = (tile_center[0] + offset_x, tile_center[1] + offset_y)
 
+            if total_players == 1:
+                if player == self.turnhandler.current_player:
+                    pygame.draw.circle(screen, (24, 26, 27), tile_center, 10)
+                    pygame.draw.circle(screen, player.rgb, tile_center, 6)
+                    continue
+                else:
+                    # If only one player is on the tile, draw a circle in the center
+                    pygame.draw.circle(screen, player.rgb, tile_center, 6)
+                    continue
+
             if player == self.turnhandler.current_player:
                 pygame.draw.circle(screen, (24, 26, 27), player_center, 10)
                 pygame.draw.circle(screen, player.rgb, player_center, 6)
