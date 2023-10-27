@@ -1,14 +1,4 @@
-# für Anklage muss man nicht in Raum stehen
-# nur während des eigenen Spielzuges
-# asuwählen der Anklagekarten
-# nur einmal anklage erheben pro Spiel und Spieler
-# vergleich mit Fallakte --> richtig? dann gewonnen, falsch? dann Spielaustritt (turn skip) aber Karten müssen trotzdem bei suspicion gezeigt werden
-# 
-#
-#
-#
 import sys
-
 from button import *
 from states.state import State
 from card_stack import *
@@ -106,8 +96,8 @@ class Accusation(State):
             for row in range(len(self.list)):
                 tile = self.list[row]
                 pygame.draw.rect(screen, tile.color, (tile.x, tile.y, tile.width, tile.height))
-                font = pygame.font.Font(None, 24)  # Adjust the font size as needed
-                text = font.render(tile.name, True, (0, 0, 0))  # Text color: (0, 0, 0) is black
+                font = pygame.font.Font(None, 24) 
+                text = font.render(tile.name, True, (0, 0, 0)) 
                 text_rect = text.get_rect(center=(tile.x + tile.width // 2, tile.y + tile.height // 2))
                 screen.blit(text, text_rect)
 
