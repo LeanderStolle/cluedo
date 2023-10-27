@@ -1,4 +1,4 @@
-# cluedo
+# Cluedo
 Cluedo Board Game for an University Project!
 
 To run the program you have to install python and the pygame framework.
