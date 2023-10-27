@@ -15,7 +15,7 @@ class TurnHandler:
         self.current_player_index = (self.current_player_index + 1) % len(self.player_order)
         self.current_player = self.player_order[self.current_player_index]
         while not self.current_player.playing:
-            # If not playing, skip to the next player
+            # If player is not playing, skip to the next player
             self.current_player_index = (self.current_player_index + 1) % len(self.player_order)
             self.current_player = self.player_order[self.current_player_index]
 
@@ -24,8 +24,4 @@ class TurnHandler:
 
     def end_turn(self):
         self.next_turn()
-        # Add any end-of-turn logic here
 
-    def start_turn(self):
-        pass
-        # Add any start-of-turn logic here

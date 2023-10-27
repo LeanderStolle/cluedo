@@ -1,11 +1,3 @@
-# notiere die gezeigten Karten --> sind nicht in der Fallakte
-# 
-#
-#
-#
-#
-
-
 
 import pygame, os
 

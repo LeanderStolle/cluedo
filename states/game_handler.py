@@ -57,16 +57,13 @@ class Game_Handler(State):
 
         print(self.turnhandler.current_player)
 
-        # Buttons for player interaction
+        # define buttons
         self.suspect_btn = Button(self.game, "Suspect", self.game.SCREEN_WIDTH * 0.25 -75, 850, 150, 40, True)
         self.accuse_btn = Button(self.game, "Accuse", self.game.SCREEN_WIDTH * 0.75 -75, 850, 150, 40, True)
         self.endturn_btn = Button(self.game, "End Turn", self.game.SCREEN_WIDTH * 0.75 -75, 900, 150, 40, True)
         self.cards_btn = Button(self.game, "Show Cards", self.game.SCREEN_WIDTH * 0.25 -75, 900, 150, 40, True)
         self.back_btn = Button(self.game, "Back", self.game.SCREEN_WIDTH/2 - 75 , 900, 150, 40, True)
 
-        # Text for player interaction
-        self.active_player_text = "test"
-        self.popup_text = "test1"
 
         self.cardv = False
 
@@ -178,8 +175,8 @@ class Game_Handler(State):
             x, y = start_position
             for card in player.card_list:
                 card.draw_card(card, (x, y),screen)
-                x += 210  # Adjusts the spacing between cards
-                if x > 450:
+                x += 210 #Spacing between Cards
+                if x > 450: # new Row of cards
                     y += 260
                     x = 15
 

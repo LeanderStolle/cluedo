@@ -1,5 +1,5 @@
 import pygame, random
-import weapon
+
 
 from card import *
 

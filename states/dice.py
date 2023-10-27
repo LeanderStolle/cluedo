@@ -1,8 +1,3 @@
-# wirf 2 Würfel 
-# FÜr jede gwürfelte Lupe wird eine Beweiskarte gezogen
-# wenn cluedo Karte gezogen dann auf Notizzettel markieren
-# gespielte Karten müssen zurück unter den Stapel
-# --> movePlayer state
 
 import pygame, random
 from states.state import State
@@ -26,8 +21,8 @@ class Dice(State):
 
     def get_result(self):
         return self.dice1, self.dice2
-    
-    #def checkForOne(self):
+
+    #def checkForOne(self): #falls wir Beweiskarten einfügen
     #    result = self.get_result()
     #    if 1 in result:
     #        if result == (1, 1):
@@ -39,4 +34,4 @@ class Dice(State):
     #            print(f"You rolled a 1! You drew a card: {card}")
     #    else:
     #        print(f"You rolled: {result[0]} and {result[1]}")
-        
+

@@ -85,7 +85,7 @@ class Accusation(State):
                 screen.blit(text_surface, text_rect)
 
             else:
-                text_surface = font.render("Du bist raus (Exmatrikulation ist auch raus)", True, (0, 0, 0))
+                text_surface = font.render("Du bist raus!", True, (0, 0, 0))
                 self.current_player.playing = False
                 text_rect = text_surface.get_rect(center=popup_rect.center)
                 screen.blit(text_surface, text_rect)

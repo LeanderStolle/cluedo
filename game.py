@@ -91,7 +91,6 @@ class Game():
         self.state_stack.append(self.title_screen)
 
 
-# not you can start the game from the game class
 if __name__ == "__main__":
 
     g = Game()
